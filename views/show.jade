@@ -5,3 +5,11 @@ block content
   p Welcome to #{title}
   div.canvas
     canvas#myCanvas(height='200', width='1150')
+  .search
+    h1 Artists
+    form
+      input#search(type='text')
+      br
+      input#search-button(type='button', value='Search')
+  .results
+  script(src='../javascripts/dom.js')
