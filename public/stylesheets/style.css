@@ -10,3 +10,11 @@ a {
 #myCanvas {
   background-color: black;
 }
+
+.album {
+  margin: 20px;
+}
+
+.album:hover {
+  cursor: pointer;
+}
