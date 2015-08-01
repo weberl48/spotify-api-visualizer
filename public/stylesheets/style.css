@@ -84,3 +84,11 @@ img.album {
   margin-left: 45px;
 
 }
+
+.album {
+  margin: 20px;
+}
+
+.album:hover {
+  cursor: pointer;
+}
