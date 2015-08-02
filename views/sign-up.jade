@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  h1 Sign up!!!!!!(filler)
+  if errors
+    for error in errors
+      p.error= error
+  form(action='/visualize/sign-up', method='POST')
+    label(for='user', style='color: black;') User Name
+    input#user(type='text', name='userName', autofocus, value=userName)
+    label(for='pass', style='color: black;') Password
+    input#pass(type='password', name='password')
+    label(for='pass-confirm',style='color: black;') Confirm Password
+    input#pass-confirm(type='password', name='passwordConfirm')
+    input(type='submit', value='Sign Up')

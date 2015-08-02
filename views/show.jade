@@ -20,7 +20,20 @@ block content
               li
                 div
                   a(href='#home') About 
-          p.right
+          if user
+            h1(style='color: black') Hello #{user}
+            a(href='/visualize/logout') Logout
+          else
+            form(action='/visualize/login', method='POST')
+              label(style='color: black;') User Name
+              input(type='text', name='userName')
+              if error
+                p.error= error
+              label(style='color: black;') Password
+              input(type='password', name='password')
+              input(type='submit', value='Login')
+            a(href='/visualize/sign-up') Sign Up!
+            p.right
     .main
       .search
             h1 Artists
