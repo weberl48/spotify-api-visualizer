@@ -1,17 +1,40 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
-  div.canvas
-    canvas#myCanvas(height='200', width='1150')
-  .search
-    h1 Artists
-    form
-      input#search(type='text')
-      br
-      input#search-button(type='button', value='Search')
-  .results
-  div#audio
-    audio#player(controls)
-  script(src='../javascripts/dom.js')
+    header(name = "Access-Control-Allow-Origin" value = "*")
+      .container
+          p.left
+            ul
+              li
+                div
+                  a(href='#home') Home |
+              |   
+              li
+                div
+                  a(href='#home') Github |
+              |   
+              li
+                div
+                  a(href='#home') Contact |
+              |   
+              li
+                div
+                  a(href='#home') About 
+          p.right
+    .main
+      .search
+            h1 Artists
+            form
+              input#search(type='text')
+              br
+              input#search-button(type='button', value='Search')
+      .results
+                 
+    #mp3_player
+      #audio_box
+      | &#x9;
+      h2  Powered By Spotify and Web Audio
+    h1 Led Zepplien - Dyer Maker
+    div
+      canvas#analyser_render
+    script(src='javascripts/visualizer.js')
