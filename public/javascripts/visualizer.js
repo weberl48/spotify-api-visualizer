@@ -86,16 +86,13 @@ navigator.webkitGetUserMedia (
   {
     audio: true
   },
-
   // Success callback
   function(stream) {
     source = audioCtx.createMediaStreamSource(stream);
     source.connect(analyser);
     gainNode.connect(audioCtx.destination); // connecting the different audio graph nodes together
     visualizeMic(stream);
-
   },
-
   // Error callback
   function(err) {
     console.log('The following gUM error occured: ' + err);
@@ -106,27 +103,20 @@ function visualizeMic(stream) {
   WIDTH = canvas.width;
   HEIGHT = canvas.height;
 
-
   analyser.fftSize = 1024;
     var bufferLength = analyser.frequencyBinCount;
-    console.log(bufferLength);
     var dataArray = new Uint8Array(bufferLength);
-
     ctx.clearRect(0, 0, WIDTH, HEIGHT);
 
     function draw() {
       drawVisual = requestAnimationFrame(draw);
-
       analyser.getByteFrequencyData(dataArray);
-      console.log(dataArray);
-
       ctx.fillStyle = 'rgb(0, 0, 0)';
       ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
       var barWidth = (WIDTH / bufferLength) * 2.5;
       var barHeight;
       var x = 0;
-
       for(var i = 0; i < bufferLength; i++) {
         barHeight = dataArray[i];
         // shades of green:
@@ -136,15 +126,11 @@ function visualizeMic(stream) {
         //crazebow:
         // ctx.fillStyle = randomColor();
         ctx.fillRect(x,HEIGHT-barHeight/2,barWidth,barHeight/2);
-
         x += barWidth + 1;
       }
     }
-
     draw();
 }
-
-
 
 searchButton.addEventListener('click', function() {
     resultSection[0].innerHTML = '';
@@ -155,16 +141,12 @@ searchButton.addEventListener('click', function() {
     var parsedObj = JSON.parse(searchXhr.responseText);
     var artistId = parsedObj.artists[0].href;
     var artistName = parsedObj.artists[0].name;
-    // console.log(parsedObj);
-    // console.log(artistId);
-    // console.log(artistName);
     var artistIdParam = artistId.split(':')[2];
     //api call with artists information
     var apiXhr = new XMLHttpRequest();
     apiXhr.open('GET', 'https://api.spotify.com/v1/artists/' + artistIdParam + '/albums?album_type=album', false);
     apiXhr.send(null);
     var parsedApiObj = JSON.parse(apiXhr.responseText);
-    // console.log(parsedApiObj);
     var coverArtArray = [];
     var albumId = [];
     for (var i = 0; i < parsedApiObj.items.length; i++) {
@@ -177,12 +159,10 @@ searchButton.addEventListener('click', function() {
         resultSection[0].appendChild(img);
         img.src = coverArtArray[i];
     }
-
     thumbsUp.addEventListener('click', function () {
       var albumXhr = new XMLHttpRequest();
       albumXhr.open('GET', '/visualize/liked/' + currentAlbumId, true);
       albumXhr.send(null);
-      console.log(albumXhr.responseText);
       // thumbsUp.classList.toggle("liked");
       thumbsUp.className = 'liked';
     });
@@ -191,18 +171,12 @@ searchButton.addEventListener('click', function() {
         $.ajax({
             url: 'https://api.spotify.com/v1/albums/' + albumId,
             success: function (response) {
-              // player.src = 'http://www.stephaniequinn.com/Music/Canon.mp3';
               player.src = response.tracks.items[0].preview_url;
               player.play();
-              console.log(response);
-              console.log(player.src);
-              // initMp3Player(player);
             }
         });
     };
 
-    //click listener for albums
-    //this section is borken needs to be fixed!!!!!!!!!!!!!!!
     var albumImages = document.getElementsByClassName('album');
     var albums = [];
     [].forEach.call(albumImages, function (album) {
@@ -212,52 +186,6 @@ searchButton.addEventListener('click', function() {
         albums[i].addEventListener('click', function() {
           currentAlbumId = albumId[albums.indexOf(this)];
           fetchTracks(currentAlbumId);
-            // var url = album.tracks.items[0].preview_url + '/jsonp?callback=?';
-            // $.getJSON(url, function(jsonp){
-            //   $("#jsonp-response").html(JSON.stringify(jsonp, null, 2));
-            // });
-
-                // audioObject = new Audio(url);
-                // audioObject = new Audio(album.tracks.items[0].preview_url);
-                // audioObject.play();
-
-                // initMp3Player(player);
-                // target.classList.add(playingCssClass);
-                // audioObject.addEventListener('ended', function () {
-                //     target.classList.remove(playingCssClass);
-                // });
-                // audioObject.addEventListener('pause', function () {
-                //     target.classList.remove(playingCssClass);
-                // });
-
-        });
-    }
-
-
-
-
-
-    var getRandomColor = function() {
-        var letters = '0123456789ABCDEF'.split('');
-        var color = '#';
-        for (var i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * 16)];
-        }
-
-        return color;
-    };
-
-
-      bar_x += bar_width + 1;
-    });
-
-
-  var getRandomColor =function () {
-  var letters = '0123456789ABCDEF'.split('');
-  var color = '#';
-  for (var i = 0; i < 6; i++ ) {
-      color += letters[Math.floor(Math.random() * 16)];
-  }
-  // console.log(color);
-  return color;
-};
+				});
+			}
+});
