@@ -8,6 +8,7 @@ var loginBox = document.getElementById('hidden-login');
 var showLinks = document.getElementById('show-links');
 var cancelButton = document.getElementById('cancel');
 var songName = document.getElementById('song-name');
+var artistInfo = document.getElementById('artist-info');
 var currentAlbumId;
 var canvas, ctx, source, context, analyser, fbc_array, bars, bar_x, bar_width, bar_height;
 
@@ -28,6 +29,10 @@ input.addEventListener('keypress', function (e) {
   if (key === 13) {
     console.log('yo y yo');
   }
+});
+
+input.addEventListener('click', function () {
+  input.placeholder = '';
 });
 
 // function initMp3Player(audioObject) {
@@ -191,14 +196,15 @@ searchButton.addEventListener('click', function() {
         albumXhr.send(null);
         console.log(albumXhr.responseText);
         thumbsUp.classList.toggle("liked");
-        thumbsUp.src = 'images/thumbs-up-blue.png';
+        thumbsUp.src = 'images/thumbs-up-green.png';
       });
     }
-
     var fetchTracks = function (albumId) {
         $.ajax({
             url: 'https://api.spotify.com/v1/albums/' + albumId,
             success: function (response) {
+              artistInfo.style.display = 'inline-block';
+              songName.innerHTML = response.artists[0].name + ' - ' + response.tracks.items[0].name;
               player.src = response.tracks.items[0].preview_url;
               player.play();
             }

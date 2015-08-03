@@ -90,10 +90,6 @@ router.get('/visualize/liked/:currentAlbumId', function (req, res) {
       songName: albumObj.tracks.items[0].name
     };
     users.update({userName: req.session.user}, { $push: { favSongs: objToInsert} })
-    //this prevents duplication but also breaks the site when the user tries to go to their
-    //dashboard right after thumbing up. Which makes sense bc the connection to the db
-    //is lost so route to find the users favSongs array breaks
-    // db.close()
   });
 });
 

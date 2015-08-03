@@ -42,14 +42,15 @@ block content
                 a#cancel(href='#') Cancel
       .main
         .search
-              h1 Artist Search
-              input#search(type='text')
+              //- h1 Artist Search
+              input#search(type='text', placeholder='Search for Artist')
               br
               input#search-button(type='button', value='Search')  
-      h1#song-name Artist - Album
-      if user
-       img#thumbs-up(src='images/thumbs-up.png')
-       p(style='display: inline-block') - Like
+      #artist-info
+        h1#song-name Artist - Album
+        if user
+         img#thumbs-up(src='images/thumbs-up.png')
+         p(style='display: inline-block') - Like
       div
         canvas#analyser_render(height='200', width='1250')
         //-  h2  Powered By Spotify and Web Audio
