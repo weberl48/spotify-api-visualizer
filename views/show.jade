@@ -43,15 +43,15 @@ block content
               input#search(type='text')
               br
               input#search-button(type='button', value='Search')            
+    h1 Led Zepplien - Dyer Maker
+    div
+      canvas#analyser_render
      #mp3_player
        #audio_box
-         audio#player(controls loop=true autoplay=false)
+         audio#player(controls loop=true autoplay=false src='sample.mp3')
        | &#x9;
        h2  Powered By Spotify and Web Audio
        if user
         img#thumbs-up(src='images/thumbs-up.png')
       .results
-    h1 Led Zepplien - Dyer Maker
-    div
-      canvas#analyser_render
     script(src='javascripts/visualizer.js')

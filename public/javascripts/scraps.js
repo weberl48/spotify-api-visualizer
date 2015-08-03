@@ -5,63 +5,6 @@ var thumbsUp = document.getElementById('thumbs-up');
 var audioPlayer = document.getElementById('player');
 var currentAlbumId;
 var canvas, ctx, source, context, analyser, fbc_array, bars, bar_x, bar_width, bar_height;
-
-function initMp3Player(audioObject) {
-    context = new AudioContext(); // AudioContext object instance
-    analyser = context.createAnalyser(); // AnalyserNode method
-    canvas = document.getElementById('analyser_render');
-    ctx = canvas.getContext('2d');
-    // Re-route audio playback into the processing graph of the AudioContext
-    source = context.createMediaElementSource(audioObject);
-    source.connect(analyser);
-    analyser.connect(context.destination);
-
-function frameLooper() {
-WIDTH = canvas.width;
-HEIGHT = canvas.height;
-
-
-analyser.fftSize = 1024;
-  var bufferLength = analyser.frequencyBinCount;
-  var dataArray = new Uint8Array(bufferLength);
-
-  ctx.clearRect(0, 0, WIDTH, HEIGHT);
-
-  function draw() {
-    drawVisual = requestAnimationFrame(draw);
-
-    analyser.getByteFrequencyData(dataArray);
-    // console.log(dataArray);
-
-    ctx.fillStyle = 'rgb(0, 0, 0)';
-    ctx.fillRect(0, 0, WIDTH, HEIGHT);
-
-    var barWidth = (WIDTH / bufferLength) * 2.5;
-    var barHeight;
-    var x = 0;
-
-    for(var i = 0; i < bufferLength; i++) {
-      barHeight = dataArray[i];
-      // shades of green:
-      ctx.fillStyle = 'rgb(50,' + (barHeight+100) + ',50)';
-      //shades of grey:
-      // ctx.fillStyle = blackAndWhite();
-      //crazebow:
-      // ctx.fillStyle = randomColor();
-      ctx.fillRect(x,HEIGHT-barHeight/2,barWidth,barHeight/2);
-
-      x += barWidth + 1;
-    }
-  }
-
-  draw();
-}
-
-    frameLooper();
-}
-
-// initMp3Player(player);
-
 searchButton.addEventListener('click', function() {
     resultSection[0].innerHTML = '';
     // search for artist based off of user input and get artist spotify id for api call
@@ -98,7 +41,7 @@ searchButton.addEventListener('click', function() {
       var albumXhr = new XMLHttpRequest();
       albumXhr.open('GET', '/visualize/liked/' + currentAlbumId, true);
       albumXhr.send(null);
-      console.log(albumXhr.responseText);
+      console.log(albumXhr.responseText)
       // thumbsUp.classList.toggle("liked");
       thumbsUp.className = 'liked';
     });
@@ -123,17 +66,11 @@ searchButton.addEventListener('click', function() {
         albums[i].addEventListener('click', function() {
           currentAlbumId = albumId[albums.indexOf(this)];
           fetchTracks(currentAlbumId, function (album) {
-            // var url = album.tracks.items[0].preview_url + '/jsonp?callback=?';
-            // $.getJSON(url, function(jsonp){
-            //   $("#jsonp-response").html(JSON.stringify(jsonp, null, 2));
-            // });
-
-                // audioObject = new Audio(url);
-                // audioObject = new Audio(album.tracks.items[0].preview_url);
-                // audioObject.play();
+                audioObject = new Audio(album.tracks.items[0].preview_url);
+                audioObject.play();
+                initMp3Player(audioObject);
                 player.src = album.tracks.items[0].preview_url;
                 player.play();
-                // initMp3Player(player);
                 // target.classList.add(playingCssClass);
                 // audioObject.addEventListener('ended', function () {
                 //     target.classList.remove(playingCssClass);
@@ -142,13 +79,62 @@ searchButton.addEventListener('click', function() {
                 //     target.classList.remove(playingCssClass);
                 // });
             });
+            // var trackXhr = new XMLHttpRequest();
+            // // trackXhr.open('GET', 'https://api.spotify.com/v1/albums/' + albumId[i], false);
+            // trackXhr.open('GET', 'https://api.spotify.com/v1/tracks/3SWZ9fHtWMxwkFok5qhhpO', false);
+            // // trackXhr.setRequestHeader('Access-Control-Allow-Origin','https://api.spotify.com');
+            // trackXhr.send(null);
+            // var parsedTrackObj = JSON.parse(trackXhr.responseText);
+            // // var audio = new Audio();
+            // // audio.controls = true;
+            // // audio.loop = true;
+            // // audio.autoplay = false;
+            // // audio.crossorigin="anonymous";
+            // player.src = parsedTrackObj.preview_url;
+            // initMp3Player(player);
         });
     }
 
 
+    function initMp3Player(audioObject) {
+        // player.src = audioObject.src;
+        // console.log('*************');
+        // document.getElementById('audio_box').appendChild(audio);
+        context = new webkitAudioContext(); // AudioContext object instance
+        analyser = context.createAnalyser(); // AnalyserNode method
+        canvas = document.getElementById('analyser_render');
+        ctx = canvas.getContext('2d');
+        // Re-route audio playback into the processing graph of the AudioContext
+        source = context.createMediaElementSource(audioObject);
+        source.connect(analyser);
+        analyser.connect(context.destination);
+        frameLooper();
+    }
 
+    function frameLooper() {
+        // console.log("****************");
+        window.requestAnimationFrame(frameLooper);
+        fbc_array = new Uint8Array(analyser.frequencyBinCount);
+        analyser.getByteFrequencyData(fbc_array);
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+        ctx.fillStyle = getRandomColor(); // Color of the bars '#00CCFF';
+        bars = 100;
+        for (var i = 0; i < bars; i++) {
+            bar_x = i * 3;
+            bar_width = 2;
+            // bar_height = -(fbc_array[i] / 2);
+            //  fillRect( x, y, width, height ) // Explanation of the parameters below
+            // ctx.fillRect(bar_x, canvas.height, bar_width, bar_height);
+            for (var i = 0; i < analyser.frequencyBinCount; i++) {
+                bar_height = fbc_array[i];
+                // ctx.fillStyle = 'rgb(' + (barHeight+100) + ',50,50)'; //different shades of red
+                ctx.fillStyle = getRandomColor();
+                ctx.fillRect(bar_x, canvas.height - bar_height / 2, bar_width, bar_height / 2);
 
-
+                bar_x += bar_width + 1;
+            }
+        }
+    }
     var getRandomColor = function() {
         var letters = '0123456789ABCDEF'.split('');
         var color = '#';
@@ -161,7 +147,7 @@ searchButton.addEventListener('click', function() {
 
 
       bar_x += bar_width + 1;
-    });
+    })
 
 
   var getRandomColor =function () {
