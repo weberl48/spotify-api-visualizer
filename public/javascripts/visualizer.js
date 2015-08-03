@@ -46,6 +46,15 @@ searchButton.addEventListener('click', function() {
       thumbsUp.className = 'liked';
     });
 
+    var fetchTracks = function (albumId, callback) {
+        $.ajax({
+            url: 'https://api.spotify.com/v1/albums/' + albumId,
+            success: function (response) {
+                callback(response);
+            }
+        });
+    };
+
     //click listener for albums
     //this section is borken needs to be fixed!!!!!!!!!!!!!!!
     var albumImages = document.getElementsByClassName('album');
@@ -56,24 +65,39 @@ searchButton.addEventListener('click', function() {
     for (var i = 0; i < albums.length; i++) {
         albums[i].addEventListener('click', function() {
           currentAlbumId = albumId[albums.indexOf(this)];
-            var trackXhr = new XMLHttpRequest();
-            // trackXhr.open('GET', 'https://api.spotify.com/v1/albums/' + albumId[i], false);
-            trackXhr.open('GET', 'https://api.spotify.com/v1/tracks/3SWZ9fHtWMxwkFok5qhhpO', false);
-            // trackXhr.setRequestHeader('Access-Control-Allow-Origin','https://api.spotify.com');
-            trackXhr.send(null);
-            var parsedTrackObj = JSON.parse(trackXhr.responseText);
-            // var audio = new Audio();
-            // audio.controls = true;
-            // audio.loop = true;
-            // audio.autoplay = false;
-            // audio.crossorigin="anonymous";
-            player.src = parsedTrackObj.preview_url;
-            initMp3Player(player);
+          fetchTracks(currentAlbumId, function (album) {
+                audioObject = new Audio(album.tracks.items[0].preview_url);
+                audioObject.play();
+                initMp3Player(audioObject);
+                player.src = album.tracks.items[0].preview_url;
+                player.play();
+                // target.classList.add(playingCssClass);
+                // audioObject.addEventListener('ended', function () {
+                //     target.classList.remove(playingCssClass);
+                // });
+                // audioObject.addEventListener('pause', function () {
+                //     target.classList.remove(playingCssClass);
+                // });
+            });
+            // var trackXhr = new XMLHttpRequest();
+            // // trackXhr.open('GET', 'https://api.spotify.com/v1/albums/' + albumId[i], false);
+            // trackXhr.open('GET', 'https://api.spotify.com/v1/tracks/3SWZ9fHtWMxwkFok5qhhpO', false);
+            // // trackXhr.setRequestHeader('Access-Control-Allow-Origin','https://api.spotify.com');
+            // trackXhr.send(null);
+            // var parsedTrackObj = JSON.parse(trackXhr.responseText);
+            // // var audio = new Audio();
+            // // audio.controls = true;
+            // // audio.loop = true;
+            // // audio.autoplay = false;
+            // // audio.crossorigin="anonymous";
+            // player.src = parsedTrackObj.preview_url;
+            // initMp3Player(player);
         });
     }
 
 
-    function initMp3Player() {
+    function initMp3Player(audioObject) {
+        // player.src = audioObject.src;
         // console.log('*************');
         // document.getElementById('audio_box').appendChild(audio);
         context = new webkitAudioContext(); // AudioContext object instance
@@ -81,7 +105,7 @@ searchButton.addEventListener('click', function() {
         canvas = document.getElementById('analyser_render');
         ctx = canvas.getContext('2d');
         // Re-route audio playback into the processing graph of the AudioContext
-        source = context.createMediaElementSource(player);
+        source = context.createMediaElementSource(audioObject);
         source.connect(analyser);
         analyser.connect(context.destination);
         frameLooper();
@@ -93,7 +117,7 @@ searchButton.addEventListener('click', function() {
         fbc_array = new Uint8Array(analyser.frequencyBinCount);
         analyser.getByteFrequencyData(fbc_array);
         ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
-        ctx.fillStyle = getRandomColor() // Color of the bars '#00CCFF';
+        ctx.fillStyle = getRandomColor(); // Color of the bars '#00CCFF';
         bars = 100;
         for (var i = 0; i < bars; i++) {
             bar_x = i * 3;
