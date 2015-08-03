@@ -1,6 +1,8 @@
 var input = document.getElementById('search');
 var searchButton = document.getElementById('search-button');
 var resultSection = document.getElementsByClassName('results');
+var thumbsUp = document.getElementById('thumbs-up');
+var currentAlbumId;
 var canvas, ctx, source, context, analyser, fbc_array, bars, bar_x, bar_width, bar_height;
 searchButton.addEventListener('click', function() {
     resultSection[0].innerHTML = '';
@@ -39,8 +41,13 @@ searchButton.addEventListener('click', function() {
     //click listener for albums
     //this section is borken needs to be fixed!!!!!!!!!!!!!!!
     var albumImages = document.getElementsByClassName('album');
-    for (var i = 0; i < albumImages.length; i++) {
-        albumImages[i].addEventListener('click', function() {
+    var albums = [];
+    [].forEach.call(albumImages, function (album) {
+      albums.push(album);
+    });
+    for (var i = 0; i < albums.length; i++) {
+        albums[i].addEventListener('click', function() {
+          currentAlbumId = albumId[albums.indexOf(this)];
             var trackXhr = new XMLHttpRequest();
             // trackXhr.open('GET', 'https://api.spotify.com/v1/albums/' + albumId[i], false);
             trackXhr.open('GET', 'https://api.spotify.com/v1/tracks/3SWZ9fHtWMxwkFok5qhhpO', false);
@@ -56,10 +63,17 @@ searchButton.addEventListener('click', function() {
             initMp3Player(audio);
         });
     }
+    thumbsUp.addEventListener('click', function () {
+      var albumXhr = new XMLHttpRequest();
+      albumXhr.open('GET', '/visualize/liked/' + currentAlbumId, false);
+      albumXhr.send(null);
+      //albumXhr.responseText
+      thumbsUp.classList.toggle("liked");
+    });
 
 
     function initMp3Player(audio) {
-        console.log('*************');
+        // console.log('*************');
         document.getElementById('audio_box').appendChild(audio);
         context = new webkitAudioContext(); // AudioContext object instance
         analyser = context.createAnalyser(); // AnalyserNode method
@@ -73,7 +87,7 @@ searchButton.addEventListener('click', function() {
     }
 
     function frameLooper() {
-        console.log("****************");
+        // console.log("****************");
         window.requestAnimationFrame(frameLooper);
         fbc_array = new Uint8Array(analyser.frequencyBinCount);
         analyser.getByteFrequencyData(fbc_array);

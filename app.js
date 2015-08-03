@@ -15,7 +15,7 @@ var app = express();
 app.use(cookieSession({
   name: 'visualizer',
   keys: [process.env.KEY_1, process.env.KEY_2]
-}))
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
