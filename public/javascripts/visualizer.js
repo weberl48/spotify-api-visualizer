@@ -68,7 +68,7 @@ searchButton.addEventListener('click', function() {
       var albumXhr = new XMLHttpRequest();
       albumXhr.open('GET', '/visualize/liked/' + currentAlbumId, true);
       albumXhr.send(null);
-      //albumXhr.responseText
+      // console.log(albumXhr.responseText)
       thumbsUp.classList.toggle("liked");
     });
 

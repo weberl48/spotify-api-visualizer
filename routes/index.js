@@ -30,6 +30,7 @@ router.get('/visualize', function (req, res, next) {
 });
 
 router.get('/visualize/user/:id', function (req, res) {
+  // db.open();
   var userCookie = req.session.user;
   var userId = req.session.userId;
   userCookie = userCookie.capitalize();
@@ -53,7 +54,6 @@ router.post('/visualize/sign-up', function (req, res) {
     bcrypt.hash(formData.password, 8, function(err, hash) {
       users.insert({userName: formData.userName, password: hash, favSongs: []});
       req.session.user = formData.userName;
-      req.session.userId = user._id;
       res.redirect('/');
     });
   }
@@ -89,8 +89,12 @@ router.get('/visualize/liked/:currentAlbumId', function (req, res) {
       previewUrl: albumObj.tracks.items[0].preview_url,
       songName: albumObj.tracks.items[0].name
     };
-    users.update({userName: req.session.user}, { $push: { favSongs: objToInsert} }).then(function (user) {
-    });
+    users.update({userName: req.session.user}, { $push: { favSongs: objToInsert} })
+    
+    //this prevents duplication but also breaks the site when the user tries to go to their
+    //dashboard right after thumbing up. Which makes sense bc the connection to the db
+    //is lost so route to find the users favSongs array breaks
+    // db.close()
   });
 });
 
