@@ -64,14 +64,16 @@ searchButton.addEventListener('click', function() {
             initMp3Player(player);
         });
     }
+    
     thumbsUp.addEventListener('click', function () {
-      var albumXhr = new XMLHttpRequest();
-      albumXhr.open('GET', '/visualize/liked/' + currentAlbumId, true);
-      albumXhr.send(null);
+      // var albumXhr = new XMLHttpRequest();
+      // albumXhr.open('GET', '/visualize/liked/' + currentAlbumId, true);
+      // albumXhr.send(null);
       // console.log(albumXhr.responseText)
-      thumbsUp.classList.toggle("liked");
+      // thumbsUp.classList.toggle("liked");
+      alert('hello')
+      thumbsUp.className = 'liked';
     });
-
 
     function initMp3Player() {
         // console.log('*************');
