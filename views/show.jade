@@ -1,57 +1,61 @@
 extends layout
 
 block content
-    header(name = "Access-Control-Allow-Origin" value = "*")
+    header
       .container
-          p.left
+          .left
             ul
               li
                 div
-                  a(href='#home') Home |
+                  a(href='#home') Home
               |   
               li
                 div
-                  a(href='https://github.com/weberl48/spotify-api-visualizer') Github |
+                  a(href='https://github.com/weberl48/spotify-api-visualizer') Github
               |   
               li
                 div
-                  a(href='#home') Contact |
+                  a(href='#home') Contact
               |   
               li
                 div
                   a(href='#home') About 
-          if user
-            h1(style='color: black') Hello #{user}
-            a(href='/visualize/user/' + userId) #{user}'s Dashboard
-            br
-            a(href='/visualize/logout') Logout
-          else
-            form(action='/visualize/login', method='POST')
-              label(style='color: black;') User Name
-              input(type='text', name='userName')
-              if error
-                p.error= error
-              label(style='color: black;') Password
-              input(type='password', name='password')
-              input(type='submit', value='Login')
-            a(href='/visualize/sign-up') Sign Up!
-            p.right
-    .main
-      .search
-            h1 Artists
-            form
+          .right
+            #show-links
+              if user
+                a(href='/visualize/user/' + userId) #{user}'s Dashboard
+                br
+                a(href='/visualize/logout') Logout
+              else
+                a#show-login(href='#') Login 
+                br
+                a(href='/visualize/sign-up') Sign Up!
+            #hidden-login
+              form(action='/visualize/login', method='POST')
+                label User Name
+                input(type='text', name='userName', style='color: black;')
+                if error
+                  p.error= error
+                label Password
+                input(type='password', name='password', style='color: black;')
+                input(type='submit', value='Login', style='color: black;')
+                a#cancel(href='#') Cancel
+      .main
+        .search
+              h1 Artist Search
               input#search(type='text')
               br
-              input#search-button(type='button', value='Search')            
-     #mp3_player
-       #audio_box
-         audio#player(controls loop=true autoplay=false)
-       | &#x9;
-       h2  Powered By Spotify and Web Audio
-       if user
-        img#thumbs-up(src='images/thumbs-up.png')
-      .results
-    h1 Led Zepplien - Dyer Maker
-    div
-      canvas#analyser_render
+              input#search-button(type='button', value='Search')  
+      h1#song-name Artist - Album
+      if user
+       img#thumbs-up(src='images/thumbs-up.png')
+       p(style='display: inline-block') - Like
+      div
+        canvas#analyser_render          
+        //-  h2  Powered By Spotify and Web Audio
+        .results
+      //- #mp3_player
+      //-   #audio_box
+      //-     audio#player(controls loop=true autoplay=false)
+      //-   | &#x9;
     script(src='javascripts/visualizer.js')

@@ -1,44 +1,35 @@
 extends layout
 
 block content
-    header(name = "Access-Control-Allow-Origin" value = "*")
+    header
       .container
-          p.left
+          .left
             ul
               li
                 div
-                  a(href='/') Home |
+                  a(href='/') Home 
               |   
               li
                 div
-                  a(href='https://github.com/weberl48/spotify-api-visualizer') Github |
+                  a(href='https://github.com/weberl48/spotify-api-visualizer') Github 
               |   
               li
                 div
-                  a(href='#home') Contact |
+                  a(href='#home') Contact 
               |   
               li
                 div
                   a(href='#home') About 
-          if user
-            h1(style='color: black') Hello #{user}
             //- a(href='/visualize/user/' + userId) #{user}'s Dashboard
-            br
-            a(href='/visualize/logout') Logout
-          else
-            form(action='/visualize/login', method='POST')
-              label(style='color: black;') User Name
-              input(type='text', name='userName')
-              if error
-                p.error= error
-              label(style='color: black;') Password
-              input(type='password', name='password')
-              input(type='submit', value='Login')
-            a(href='/visualize/sign-up') Sign Up!
-            p.right
+          .right#logout
+            a(href='/visualize/logout'  ) Logout
+  
     .main
+      
       .search
-        h1 #{user}'s Fav Songs
+        h1 Welcome #{user}
+      h1 #{user}'s Fav Songs
+      .results2
         for fav in userFavs
           img.dash-album(src=fav.albumImg)
       //-       h1 Artists
@@ -46,13 +37,14 @@ block content
       //-         input#search(type='text')
       //-         br
       //-         input#search-button(type='button', value='Search')            
-     #mp3_player
-       #audio_box
-         audio#player(controls loop=true autoplay=false)
-       | &#x9;
-       h2  Powered By Spotify and Web Audio
+      h1#song-name Artist - Album
+      div
+        canvas#analyser_render
+    //-  #mp3_player
+    //-    #audio_box
+    //-      audio#player(controls loop=true autoplay=false)
+    //-    | &#x9;
+    //-    h2  Powered By Spotify and Web Audio
 
-    h1 Led Zepplien - Dyer Maker
-    div
-      canvas#analyser_render
+
     //- script(src='javascripts/visualizer.js')

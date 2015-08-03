@@ -3,9 +3,34 @@ var searchButton = document.getElementById('search-button');
 var resultSection = document.getElementsByClassName('results');
 var thumbsUp = document.getElementById('thumbs-up');
 var audioPlayer = document.getElementById('player');
+var loginButton = document.getElementById('show-login');
+var loginBox = document.getElementById('hidden-login');
+var showLinks = document.getElementById('show-links');
+var cancelButton = document.getElementById('cancel');
+var songName = document.getElementById('song-name');
 var currentAlbumId;
 var canvas, ctx, source, context, analyser, fbc_array, bars, bar_x, bar_width, bar_height;
+if (loginButton) {
+  loginButton.addEventListener('click',function () {
+    loginBox.style.display = 'inline-block';
+    showLinks.style.display = 'none';
+  });
+}
+cancelButton.addEventListener('click', function () {
+  loginBox.style.display = 'none';
+  showLinks.style.display = 'inline-block';
+});
+
+//trying to get the enter key to run the search
+input.addEventListener('keypress', function (e) {
+  var key= e.which || e.keyCode;
+  if (key === 13) {
+    console.log('yo y yo');
+  }
+});
+
 searchButton.addEventListener('click', function() {
+    resultSection[0].style.display = 'inline-block'
     resultSection[0].innerHTML = '';
     // search for artist based off of user input and get artist spotify id for api call
     var searchXhr = new XMLHttpRequest();
@@ -36,16 +61,16 @@ searchButton.addEventListener('click', function() {
         resultSection[0].appendChild(img);
         img.src = coverArtArray[i];
     }
-
-    thumbsUp.addEventListener('click', function () {
-      var albumXhr = new XMLHttpRequest();
-      albumXhr.open('GET', '/visualize/liked/' + currentAlbumId, true);
-      albumXhr.send(null);
-      console.log(albumXhr.responseText)
-      // thumbsUp.classList.toggle("liked");
-      thumbsUp.className = 'liked';
-    });
-
+    if (thumbsUp) {
+      thumbsUp.addEventListener('click', function () {
+        var albumXhr = new XMLHttpRequest();
+        albumXhr.open('GET', '/visualize/liked/' + currentAlbumId, true);
+        albumXhr.send(null);
+        console.log(albumXhr.responseText);
+        thumbsUp.classList.toggle("liked");
+        thumbsUp.src = 'images/thumbs-up-blue.png';
+      });
+    }
     //click listener for albums
     //this section is borken needs to be fixed!!!!!!!!!!!!!!!
     var albumImages = document.getElementsByClassName('album');
@@ -57,11 +82,19 @@ searchButton.addEventListener('click', function() {
         albums[i].addEventListener('click', function() {
           currentAlbumId = albumId[albums.indexOf(this)];
             var trackXhr = new XMLHttpRequest();
-            // trackXhr.open('GET', 'https://api.spotify.com/v1/albums/' + albumId[i], false);
-            trackXhr.open('GET', 'https://api.spotify.com/v1/tracks/3SWZ9fHtWMxwkFok5qhhpO', false);
+            trackXhr.open('GET', 'https://api.spotify.com/v1/albums/' + currentAlbumId, false);
+            // trackXhr.open('GET', 'https://api.spotify.com/v1/tracks/3SWZ9fHtWMxwkFok5qhhpO', false);
             // trackXhr.setRequestHeader('Access-Control-Allow-Origin','https://api.spotify.com');
             trackXhr.send(null);
             var parsedTrackObj = JSON.parse(trackXhr.responseText);
+
+            songName.innerHTML = parsedTrackObj.artists[0].name + ' - ' + parsedTrackObj.tracks.items[0].name
+            //song name
+            // console.log(parsedTrackObj.tracks.items[0].name);
+
+            //artists name
+            // console.log(parsedTrackObj.artists[0].name);
+
             // var audio = new Audio();
             // audio.controls = true;
             // audio.loop = true;
@@ -120,8 +153,6 @@ searchButton.addEventListener('click', function() {
 
         return color;
     };
-
-
       bar_x += bar_width + 1;
     })
 
