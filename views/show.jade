@@ -45,10 +45,10 @@ block content
               input#search-button(type='button', value='Search')            
     h1 Led Zepplien - Dyer Maker
     div
-      canvas#analyser_render
+      canvas#analyser_render(height='200', width='1250')
      #mp3_player
        #audio_box
-         audio#player(controls loop=true autoplay=false src='sample.mp3')
+         audio#player(controls loop=true autoplay=false src='sample.mp3' type='audio/mp3')
        | &#x9;
        h2  Powered By Spotify and Web Audio
        if user
