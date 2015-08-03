@@ -63,13 +63,16 @@ router.get('/visualize/logout', function (req, res) {
 router.get('/visualize/liked/:currentAlbumId', function (req, res) {
   unirest.get('https://api.spotify.com/v1/albums/' + req.params.currentAlbumId)
   .end(function (result) {
-    users.findOne({userName: req.session.user}).then(function (user) {
-      // console.log(result.raw_body.artists[0].name,
-      // result.raw_body.images[0].url,
-      // result.raw_body.name,
-      // result.raw_body.tracks.item[0].preview_url,
-      // result.raw_body.tracks.item[0].name
-      // );
+    var albumObj = JSON.parse(result.raw_body);
+    var objToInsert = {
+      artistName: albumObj.artists[0].name,
+      albumImg: albumObj.images[0].url,
+      albumName: albumObj.name,
+      previewUrl: albumObj.tracks.items[0].preview_url,
+      songName: albumObj.tracks.items[0].name
+    };
+    users.update({userName: req.session.user}, { $push: { favSongs: objToInsert} }).then(function (user) {
+
     });
   });
 });

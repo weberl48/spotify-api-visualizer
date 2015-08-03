@@ -2,6 +2,7 @@ var input = document.getElementById('search');
 var searchButton = document.getElementById('search-button');
 var resultSection = document.getElementsByClassName('results');
 var thumbsUp = document.getElementById('thumbs-up');
+var audioPlayer = document.getElementById('player');
 var currentAlbumId;
 var canvas, ctx, source, context, analyser, fbc_array, bars, bar_x, bar_width, bar_height;
 searchButton.addEventListener('click', function() {
@@ -54,33 +55,33 @@ searchButton.addEventListener('click', function() {
             // trackXhr.setRequestHeader('Access-Control-Allow-Origin','https://api.spotify.com');
             trackXhr.send(null);
             var parsedTrackObj = JSON.parse(trackXhr.responseText);
-            var audio = new Audio();
-            audio.controls = true;
-            audio.loop = true;
-            audio.autoplay = false;
+            // var audio = new Audio();
+            // audio.controls = true;
+            // audio.loop = true;
+            // audio.autoplay = false;
             // audio.crossorigin="anonymous";
-            audio.src = parsedTrackObj.preview_url;
-            initMp3Player(audio);
+            player.src = parsedTrackObj.preview_url;
+            initMp3Player(player);
         });
     }
     thumbsUp.addEventListener('click', function () {
       var albumXhr = new XMLHttpRequest();
-      albumXhr.open('GET', '/visualize/liked/' + currentAlbumId, false);
+      albumXhr.open('GET', '/visualize/liked/' + currentAlbumId, true);
       albumXhr.send(null);
       //albumXhr.responseText
       thumbsUp.classList.toggle("liked");
     });
 
 
-    function initMp3Player(audio) {
+    function initMp3Player() {
         // console.log('*************');
-        document.getElementById('audio_box').appendChild(audio);
+        // document.getElementById('audio_box').appendChild(audio);
         context = new webkitAudioContext(); // AudioContext object instance
         analyser = context.createAnalyser(); // AnalyserNode method
         canvas = document.getElementById('analyser_render');
         ctx = canvas.getContext('2d');
         // Re-route audio playback into the processing graph of the AudioContext
-        source = context.createMediaElementSource(audio);
+        source = context.createMediaElementSource(player);
         source.connect(analyser);
         analyser.connect(context.destination);
         frameLooper();
