@@ -43,8 +43,18 @@ a:hover {
 	margin: 5px;
 	color: white;
 }
+<<<<<<< HEAD
 
 canvas{ width:100%; height:250px; background:rgba(0, 0, 0, 0.1);  margin: 0 auto; border-radius: 25px; }
+=======
+canvas{
+	/*width:100%;*/
+	/*height:500px; */
+	/*background:rgba(0, 0, 0, 0.1);  */
+	background-color: black;
+	margin: 0 auto;
+	border-radius: 25px; }
+>>>>>>> 04aa7af4b483cbf3d5bdcbf25b2c3391323f5cc2
 /* html {
 	background: rgba(0, 0, 0, 0.1);
 } */

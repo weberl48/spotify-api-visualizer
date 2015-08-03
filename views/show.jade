@@ -51,11 +51,11 @@ block content
        img#thumbs-up(src='images/thumbs-up.png')
        p(style='display: inline-block') - Like
       div
-        canvas#analyser_render          
+        canvas#analyser_render(height='200', width='1250')
         //-  h2  Powered By Spotify and Web Audio
         .results
       //- #mp3_player
       //-   #audio_box
-      //-     audio#player(controls loop=true autoplay=false)
+      audio#player(loop=true autoplay=false src='sample.mp3' type='audio/mp3')
       //-   | &#x9;
     script(src='javascripts/visualizer.js')
