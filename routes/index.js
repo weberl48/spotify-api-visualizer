@@ -7,7 +7,12 @@ var cookieSession = require('cookie-session');
 var validator = require('../lib/validation').validation;
 var unirest = require('unirest');
 
-/* GET home page. */
+String.prototype.capitalize = function(){
+    return this.toLowerCase().replace( /\b\w/g, function (m) {
+        return m.toUpperCase();
+    });
+};
+
 router.get('/', function(req, res, next) {
   res.redirect('/visualize');
 });
@@ -15,6 +20,7 @@ router.get('/', function(req, res, next) {
 router.get('/visualize', function (req, res, next) {
   if (req.session.user) {
     var userCookie = req.session.user;
+    userCookie = userCookie.capitalize();
     res.render('show', {title: 'SONGZ YO', user: userCookie});
   }
   else {
