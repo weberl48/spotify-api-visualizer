@@ -20,12 +20,22 @@ router.get('/', function(req, res, next) {
 router.get('/visualize', function (req, res, next) {
   if (req.session.user) {
     var userCookie = req.session.user;
+    var userId = req.session.userId;
     userCookie = userCookie.capitalize();
-    res.render('show', {title: 'SONGZ YO', user: userCookie});
+    res.render('show', {title: 'SONGZ YO', user: userCookie, userId: userId});
   }
   else {
     res.render('show', {title: 'SONGZ YO'});
   }
+});
+
+router.get('/visualize/user/:id', function (req, res) {
+  var userCookie = req.session.user;
+  var userId = req.session.userId;
+  userCookie = userCookie.capitalize();
+  users.findOne({_id: userId}).then(function (user) {
+    res.render('user-page', {user: userCookie, userId: userId, userFavs: user.favSongs});
+  });
 });
 
 router.get('/visualize/sign-up', function (req, res) {
@@ -43,6 +53,7 @@ router.post('/visualize/sign-up', function (req, res) {
     bcrypt.hash(formData.password, 8, function(err, hash) {
       users.insert({userName: formData.userName, password: hash, favSongs: []});
       req.session.user = formData.userName;
+      req.session.userId = user._id;
       res.redirect('/');
     });
   }
@@ -53,6 +64,7 @@ router.post('/visualize/login', function (req, res, next) {
   users.findOne({userName: formData.userName}).then(function (user) {
     if (bcrypt.compareSync(formData.password, user.password)) {
       req.session.user = formData.userName;
+      req.session.userId = user._id;
       res.redirect('/');
     }
     else {

@@ -7,7 +7,7 @@ block content
             ul
               li
                 div
-                  a(href='#home') Home |
+                  a(href='/') Home |
               |   
               li
                 div
@@ -38,20 +38,21 @@ block content
             p.right
     .main
       .search
-            h1 Artists
-            form
-              input#search(type='text')
-              br
-              input#search-button(type='button', value='Search')            
+        h1 #{user}'s Fav Songs
+        for fav in userFavs
+          img.dash-album(src=fav.albumImg)
+      //-       h1 Artists
+      //-       form
+      //-         input#search(type='text')
+      //-         br
+      //-         input#search-button(type='button', value='Search')            
      #mp3_player
        #audio_box
          audio#player(controls loop=true autoplay=false)
        | &#x9;
        h2  Powered By Spotify and Web Audio
-       if user
-         img#thumbs-up(src='images/thumbs-up.png')
-      .results
+
     h1 Led Zepplien - Dyer Maker
     div
       canvas#analyser_render
-    script(src='javascripts/visualizer.js')
+    //- script(src='javascripts/visualizer.js')

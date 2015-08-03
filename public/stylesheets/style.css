@@ -92,10 +92,15 @@ img.album {
 
 }
 
-.album {
+.album, .dash-album {
   margin: 20px;
 }
 
-.album:hover {
+.album:hover, .dash-album {
   cursor: pointer;
+}
+
+.dash-album {
+	width: 300px;
+	height: 300px;
 }
