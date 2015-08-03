@@ -40,16 +40,15 @@ block content
             form
               input#search(type='text')
               br
-              input#search-button(type='button', value='Search')
+              input#search-button(type='button', value='Search')            
+     #mp3_player
+       #audio_box
+         audio#player(controls loop=true autoplay=false)
+       | &#x9;
+       h2  Powered By Spotify and Web Audio
+       if user
+         img#thumbs-up(src='images/thumbs-up.png')
       .results
-                 
-    #mp3_player
-      #audio_box
-        audio#player(controls loop=true autoplay=false)
-      | &#x9;
-      h2  Powered By Spotify and Web Audio
-      if user
-        img#thumbs-up(src='images/thumbs-up.png')
     h1 Led Zepplien - Dyer Maker
     div
       canvas#analyser_render

@@ -14,7 +14,7 @@ searchButton.addEventListener('click', function() {
     var parsedObj = JSON.parse(searchXhr.responseText);
     var artistId = parsedObj.artists[0].href;
     var artistName = parsedObj.artists[0].name;
-    console.log(parsedObj);
+    // console.log(parsedObj);
     // console.log(artistId);
     // console.log(artistName);
     var artistIdParam = artistId.split(':')[2];
@@ -23,7 +23,7 @@ searchButton.addEventListener('click', function() {
     apiXhr.open('GET', 'https://api.spotify.com/v1/artists/' + artistIdParam + '/albums?album_type=album', false);
     apiXhr.send(null);
     var parsedApiObj = JSON.parse(apiXhr.responseText);
-    console.log(parsedApiObj);
+    // console.log(parsedApiObj);
     var coverArtArray = [];
     var albumId = [];
     for (var i = 0; i < parsedApiObj.items.length; i++) {
