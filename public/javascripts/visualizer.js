@@ -3,6 +3,7 @@ var searchButton = document.getElementById('search-button');
 var resultSection = document.getElementsByClassName('results');
 var thumbsUp = document.getElementById('thumbs-up');
 var pause = document.getElementById('pause');
+var playButton = document.getElementById('play');
 var audioPlayer = document.getElementById('player');
 var loginButton = document.getElementById('show-login');
 var searchButton = document.getElementById('search-button');
@@ -209,8 +210,18 @@ searchButton.addEventListener('click', function() {
     if (pause) {
       pause.addEventListener('click', function () {
         player.pause();
+        pause.style.display = 'none';
+        playButton.style.display = 'inline-block';
       })
     }
+    if (playButton) {
+      playButton.addEventListener('click', function () {
+        playButton.style.display = 'none';
+        pause.style.display = 'inline-block';
+        player.play();
+      });
+    }
+
     var fetchTracks = function (albumId) {
         $.ajax({
             url: 'https://api.spotify.com/v1/albums/' + albumId,
