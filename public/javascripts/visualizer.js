@@ -1,6 +1,7 @@
 var input = document.getElementById('search');
 var searchButton = document.getElementById('search-button');
 var resultSection = document.getElementsByClassName('results');
+var colorMode = document.getElementsByClassName('color-mode');
 var thumbsUp = document.getElementById('thumbs-up');
 var pause = document.getElementById('pause');
 var playButton = document.getElementById('play');
@@ -197,6 +198,7 @@ function visualizeMic(stream) {
 searchButton.addEventListener('click', function() {
     resultSection[0].style.display = 'inline-block';
     resultSection[0].innerHTML = '';
+    colorMode[0].style.display = 'inline-block';
     // search for artist based off of user input and get artist spotify id for api call
     var searchXhr = new XMLHttpRequest();
     searchXhr.open('GET', 'http://ws.spotify.com/search/1/artist.json?q=' + input.value, false);
