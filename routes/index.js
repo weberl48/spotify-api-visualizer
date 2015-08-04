@@ -46,7 +46,7 @@ router.get('/visualize/user/:id', function (req, res) {
 router.post('/visualize/sign-up', function (req, res) {
   var formData = req.body;
   // delete formData.passwordConfirm;
-  users.findOne({userName :formData.userName}).then(function (user) {
+  users.findOne({userName :formData.userName.toUpperCase()}).then(function (user) {
     if (user) {
       res.render('show', {errors: ['Username already exists']});
     }
@@ -68,14 +68,19 @@ router.post('/visualize/sign-up', function (req, res) {
 
 router.post('/visualize/login', function (req, res, next) {
   var formData = req.body;
-  users.findOne({userName: formData.userName}).then(function (user) {
-    if (bcrypt.compareSync(formData.password, user.password)) {
-      req.session.user = formData.userName;
-      req.session.userId = user._id;
-      res.redirect('/');
+  users.findOne({userName: formData.userName.toUpperCase()}).then(function (user) {
+    if (user) {
+      if (bcrypt.compareSync(formData.password, user.password)) {
+        req.session.user = formData.userName;
+        req.session.userId = user._id;
+        res.redirect('/');
+      }
+      else {
+        res.render('show', {error: 'Incorrect Password'});
+      }
     }
     else {
-      res.render('show', {error: 'Incorrect Password'});
+      res.render('show', {error: 'User Does Not Exist'});
     }
   });
 });
