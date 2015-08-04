@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+// var db = require('monk')(process.env.SPOTIFY_DB);
 var db = require('monk')(process.env.MONGOLAB_URI || process.env.SPOTIFY_DB);
 var users = db.get('users');
 var bcrypt = require('bcrypt');
@@ -68,6 +69,7 @@ router.post('/visualize/sign-up', function (req, res) {
 
 router.post('/visualize/login', function (req, res, next) {
   var formData = req.body;
+  console.log(formData);
   users.findOne({userName: formData.userName.toUpperCase()}).then(function (user) {
     if (user) {
       if (bcrypt.compareSync(formData.password, user.password)) {
