@@ -111,6 +111,8 @@ router.get('/visualize/liked/:currentAlbumId', function (req, res) {
     .then(function () {
       res.json(objToInsert);
     })
+    //from old commit
+    // users.update({userName: req.session.user.toUpperCase()}, { $push: { favSongs: objToInsert} });
   });
 //   router.post("/visualize/liked" ,function(req,res,next){
 //     // var albumObj = JSON.parse(result.raw_body);

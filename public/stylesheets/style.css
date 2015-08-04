@@ -41,10 +41,9 @@ a:hover {
 	display: inline-block;
 }
 
-#thumbs-up:hover, #pause:hover {
+#thumbs-up:hover, #pause:hover, #normal:hover, #stealth:hover, #crazebow:hover {
 	cursor: pointer;
 	-webkit-filter: drop-shadow(0px 0px 8px rgba(50, 230, 50, 1));
-	/*box-shadow: */
 }
 
 
@@ -149,16 +148,32 @@ header {
 }
 
 .results {
-  max-width: 100%;
-
-overflow-x: scroll;
-
-overflow-y: hidden;
-	height: 300px;
+  max-width: 79%;
+	overflow-x: scroll;
+	overflow-y: hidden;
+	height: 320px;
 	white-space:nowrap;
 	display: none;
-
 }
+
+.color-mode {
+	height: 300px;
+	display: inline-block;
+	vertical-align: top;
+	width: 20%;
+	margin-left: 10px;
+	display: none;
+}
+
+.color-mode table {
+	border: solid;
+	height: 100%;
+	width: 93%;
+	padding-top: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
 .userSaved {
 
 	max-width: 100%;
@@ -170,6 +185,11 @@ overflow-y: hidden;
 
 }
 .userSaved::-webkit-scrollbar { width: 0 !important }
+
+.color-mode table thead th {
+	font-size: 1.2em;
+	border-bottom: solid;
+}
 
 .results::-webkit-scrollbar { width: 0 !important }
 
@@ -275,7 +295,6 @@ li div {
 	height: 250px;
 	margin-left: 10px;
 	margin-right: 10px;
-
 }
 #logout {
 	margin-top: 2px;
