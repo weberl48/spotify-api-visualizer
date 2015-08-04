@@ -16,8 +16,31 @@ var loginCancelButton = document.getElementById('login-cancel');
 var signupCancelButton = document.getElementById('signup-cancel');
 var songName = document.getElementById('song-name');
 var artistInfo = document.getElementById('artist-info');
+var normalMode = document.getElementById('normal');
+var stealthMode = document.getElementById('stealth');
+var crazebowMode = document.getElementById('crazebow');
 var currentAlbumId;
+var colorChoice;
 var canvas, ctx, source, context, analyser, fbc_array, bars, bar_x, bar_width, bar_height;
+
+normalMode.addEventListener('click', function () {
+  stealthMode.src = 'images/incognito.png'
+  crazebowMode.src = 'images/rainbow.png'
+  normalMode.src = 'images/equalizer-selected.png'
+  colorChoice = 'yoyoyo';
+});
+stealthMode.addEventListener('click', function () {
+  normalMode.src = 'images/equalizer.png'
+  crazebowMode.src = 'images/rainbow.png'
+  stealthMode.src = 'images/incognito-selected.png'
+  colorChoice = 'stealth';
+});
+crazebowMode.addEventListener('click', function () {
+  normalMode.src = 'images/equalizer.png'
+  stealthMode.src = 'images/incognito.png'
+  crazebowMode.src = 'images/rainbow-selected.png'
+  colorChoice = 'crazebow';
+});
 
 if (loginButton) {
   loginButton.addEventListener('click',function () {
@@ -114,7 +137,7 @@ input.addEventListener('click', function () {
 
 var canvas = document.getElementById('analyser_render');
 var ctx = canvas.getContext('2d');
-var colorChoice;
+
 
 var AudioContext = window.AudioContext || window.webkitAudioContext;
 var audioCtx = new AudioContext();

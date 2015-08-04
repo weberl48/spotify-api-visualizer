@@ -41,10 +41,9 @@ a:hover {
 	display: inline-block;
 }
 
-#thumbs-up:hover, #pause:hover {
+#thumbs-up:hover, #pause:hover, #normal:hover, #stealth:hover, #crazebow:hover {
 	cursor: pointer;
 	-webkit-filter: drop-shadow(0px 0px 8px rgba(50, 230, 50, 1));
-	/*box-shadow: */
 }
 
 
@@ -149,7 +148,7 @@ header {
 }
 
 .results {
-  max-width: 73%;
+  max-width: 79%;
 	overflow-x: scroll;
 	overflow-y: hidden;
 	height: 320px;
@@ -161,9 +160,23 @@ header {
 	height: 300px;
 	display: inline-block;
 	vertical-align: top;
-	width: 25%;
+	width: 20%;
 	margin-left: 10px;
 	display: none;
+}
+
+.color-mode table {
+	border: solid;
+	height: 100%;
+	width: 93%;
+	padding-top: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.color-mode table thead th {
+	font-size: 1.5em;
+	border-bottom: solid;
 }
 
 .results::-webkit-scrollbar { width: 0 !important }

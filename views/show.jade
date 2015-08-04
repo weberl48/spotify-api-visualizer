@@ -76,7 +76,22 @@ block content
         //-  h2  Powered By Spotify and Web Audio
       #album-art  
         .color-mode
-          img(src='https://i.scdn.co/image/10c7f71e4c21ec6cf6a2dfe93ecc3f13f8b85562')
+          table
+            thead
+              th(colspan='2') Visualizer Effects
+            tbody
+              tr
+                td Normal Mode
+                td 
+                  img#normal(src='images/equalizer.png')
+              tr
+                td Stealth Mode
+                td 
+                  img#stealth(src='images/incognito.png')
+              tr
+                td Crazebow Mode
+                td 
+                  img#crazebow(src='images/rainbow.png')
         .results
       //- #mp3_player
       //-   #audio_box
