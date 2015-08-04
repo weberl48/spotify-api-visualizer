@@ -68,6 +68,7 @@ router.post('/visualize/sign-up', function (req, res) {
 
 router.post('/visualize/login', function (req, res, next) {
   var formData = req.body;
+  console.log(formData);
   users.findOne({userName: formData.userName.toUpperCase()}).then(function (user) {
     if (user) {
       if (bcrypt.compareSync(formData.password, user.password)) {
