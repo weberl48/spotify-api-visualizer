@@ -6,10 +6,13 @@ var pause = document.getElementById('pause');
 var playButton = document.getElementById('play');
 var audioPlayer = document.getElementById('player');
 var loginButton = document.getElementById('show-login');
+var signupButton = document.getElementById('show-signup');
 var anchor = document.getElementById('anchor');
 var loginBox = document.getElementById('hidden-login');
+var signupBox = document.getElementById('hidden-signup');
 var showLinks = document.getElementById('show-links');
-var cancelButton = document.getElementById('cancel');
+var loginCancelButton = document.getElementById('login-cancel');
+var signupCancelButton = document.getElementById('signup-cancel');
 var songName = document.getElementById('song-name');
 var artistInfo = document.getElementById('artist-info');
 var currentAlbumId;
@@ -21,8 +24,21 @@ if (loginButton) {
     showLinks.style.display = 'none';
   });
 }
-cancelButton.addEventListener('click', function () {
+
+if (signupButton) {
+  signupButton.addEventListener('click',function () {
+    signupBox.style.display = 'inline-block';
+    showLinks.style.display = 'none';
+  });
+}
+
+loginCancelButton.addEventListener('click', function () {
   loginBox.style.display = 'none';
+  showLinks.style.display = 'inline-block';
+});
+
+signupCancelButton.addEventListener('click', function () {
+  signupBox.style.display = 'none';
   showLinks.style.display = 'inline-block';
 });
 
@@ -144,14 +160,19 @@ function visualizeMic(stream) {
     function draw() {
       drawVisual = requestAnimationFrame(draw);
       analyser.getByteFrequencyData(dataArray);
+      ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
       ctx.fillStyle = 'rgb(0, 0, 0)';
       ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
       var barWidth = (WIDTH / bufferLength) * 2.5;
-      var barHeight;
-      var x = 0;
+
+      var x = 5;
+
+
       for(var i = 0; i < bufferLength; i++) {
+
         barHeight = dataArray[i];
+
         // shades of green:
         ctx.fillStyle = 'rgb(50,' + (barHeight+100) + ',50)';
         //shades of grey:
@@ -166,7 +187,6 @@ function visualizeMic(stream) {
 }
 
 searchButton.addEventListener('click', function() {
-    window.location = '#search';
     resultSection[0].style.display = 'inline-block';
     resultSection[0].innerHTML = '';
     // search for artist based off of user input and get artist spotify id for api call
@@ -194,6 +214,7 @@ searchButton.addEventListener('click', function() {
         resultSection[0].appendChild(img);
         img.src = coverArtArray[i];
     }
+    window.location = '#search';
     if (thumbsUp) {
       thumbsUp.addEventListener('click', function () {
         var albumXhr = new XMLHttpRequest();
@@ -240,6 +261,8 @@ searchButton.addEventListener('click', function() {
         albums[i].addEventListener('click', function() {
           currentAlbumId = albumId[albums.indexOf(this)];
           fetchTracks(currentAlbumId);
+          playButton.style.display = 'none';
+          pause.style.display = 'inline-block';
 				});
 			}
 });

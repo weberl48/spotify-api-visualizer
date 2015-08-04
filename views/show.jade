@@ -21,7 +21,7 @@ block content
                 div
                   a(href='#home') About 
           .right
-            #show-links
+            #show-links(style= error || errors ? 'display: none' : 'display: inline-block')
               if user
                 a(href='/visualize/user/' + userId) #{user}'s Dashboard
                 br
@@ -29,17 +29,30 @@ block content
               else
                 a#show-login(href='#') Login 
                 br
-                a(href='/visualize/sign-up') Sign Up!
-            #hidden-login
+                a#show-signup(href='#') Sign Up!
+            #hidden-login(style= error ? 'display: inline-block' : 'display: none')
               form(action='/visualize/login', method='POST')
                 label User Name
-                input(type='text', name='userName', style='color: black;')
+                input(type='text', name='userName')
                 if error
                   p.error= error
                 label Password
-                input(type='password', name='password', style='color: black;')
-                input(type='submit', value='Login', style='color: black;')
-                a#cancel(href='#') Cancel
+                input(type='password', name='password')
+                input(type='submit', value='Login')
+                a#login-cancel.cancel(href='#') Cancel
+            #hidden-signup(style= errors ? 'display: inline-block' : 'display: none')
+              form(action='/visualize/sign-up', method='POST')
+                if errors
+                  for error in errors
+                    p.error= error
+                label(for='user') User Name
+                input#user(type='text', name='userName', autofocus, value=userName)
+                label(for='pass') Password
+                input#pass(type='password', name='password')
+                label(for='pass-confirm') Confirm Password
+                input#pass-confirm(type='password', name='passwordConfirm')
+                input(type='submit', value='Sign Up')
+                a#signup-cancel.cancel(href='#') Cancel
       .main
         .search
               //- h1 Artist Search
@@ -50,11 +63,14 @@ block content
         h1#song-name Artist - Album
         if user
          img#thumbs-up(src='images/thumbs-up.png')
-         |&nbsp;&nbsp;&nbsp;&nbsp;
+         &nbsp;&nbsp;&nbsp;&nbsp;
          img#pause(src='images/pause.png')
          img#play(src='images/play-button.png')
         //-  p(style='display: inline-block') - Like
-      div
+        //-  &nbsp;&nbsp;&nbsp;&nbsp;
+      //- div.canvas
+        //-  p(style='display: inline-block') - Like
+      div.render
         canvas#analyser_render(height='200', width='1250')
         //-  h2  Powered By Spotify and Web Audio
         .results
@@ -62,4 +78,4 @@ block content
       //-   #audio_box
       audio#player(loop=true autoplay=false src='sample.mp3' type='audio/mp3')
       //-   | &#x9;
-    script(src='javascripts/visualizer.js')
+    //- script(src='javascripts/visualizer.js')

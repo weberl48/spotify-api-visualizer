@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var db = require('monk')(process.env.SPOTIFY_DB);
+var db = require('monk')(process.env.MONGOLAB_URI || process.env.SPOTIFY_DB);
 var users = db.get('users');
 var bcrypt = require('bcrypt');
 var cookieSession = require('cookie-session');
@@ -48,7 +48,7 @@ router.post('/visualize/sign-up', function (req, res) {
   // delete formData.passwordConfirm;
   var errorArray = validator(formData.userName, formData.password, formData.passwordConfirm);
   if (errorArray.length > 0) {
-    res.render('sign-up', {errors: errorArray, userName: formData.userName});
+    res.render('show', {errors: errorArray, userName: formData.userName});
   }
   else {
     bcrypt.hash(formData.password, 8, function(err, hash) {
