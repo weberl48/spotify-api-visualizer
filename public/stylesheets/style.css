@@ -77,6 +77,11 @@ a:hover {
 	margin: 5px;
 	color: black;
 }
+
+.error {
+	color: red;
+}
+
 .canvas {
 	text-align: center;
 

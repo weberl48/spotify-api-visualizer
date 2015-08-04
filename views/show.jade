@@ -23,7 +23,7 @@ block content
           .right
             #show-links(style= error || errors ? 'display: none' : 'display: inline-block')
               if user
-                a(href='/visualize/user/' + userId) #{user}'s Dashboard
+                a(href='#') Welcome #{user}!
                 br
                 a(href='/visualize/logout') Logout
               else
