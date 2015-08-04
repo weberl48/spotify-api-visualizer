@@ -103,7 +103,7 @@ router.get('/visualize/liked/:currentAlbumId', function (req, res) {
       previewUrl: albumObj.tracks.items[0].preview_url,
       songName: albumObj.tracks.items[0].name
     };
-    users.update({userName: req.session.user}, { $push: { favSongs: objToInsert} });
+    users.update({userName: req.session.user.toUpperCase()}, { $push: { favSongs: objToInsert} });
   });
 });
 

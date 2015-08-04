@@ -126,9 +126,9 @@ var randomColor = function () {
 	return 'rgb(' + Math.round(Math.random() * 255) + ', ' + Math.round(Math.random() * 255) + ', ' + Math.round(Math.random() * 255) + ')';
 };
 
-var blackAndWhite = function () {
-  var randomValue = Math.round(Math.random() * 255);
-	return 'rgb(' + randomValue + ', ' + randomValue + ', ' + randomValue + ')';
+var blackAndWhite = function (barHeight) {
+  // var randomValue = Math.round(Math.random() * 255);
+	return 'rgb(' + (barHeight/2) + ', ' + (barHeight/2) + ', ' + (barHeight/2) + ')';
 };
 
 var greenColor = function (barHeight) {
@@ -181,7 +181,7 @@ function visualizeMic(stream) {
 
         // shades of green:
         if (colorChoice === 'stealth') {
-          ctx.fillStyle = blackAndWhite();
+          ctx.fillStyle = blackAndWhite(barHeight);
         } else if (colorChoice === 'crazebow') {
           ctx.fillStyle = randomColor();
         } else {
