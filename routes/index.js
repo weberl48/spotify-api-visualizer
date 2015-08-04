@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var db = require('monk')(process.env.SPOTIFY_DB);
+var db = require('monk')(process.env.MONGOLAB_URI);
 var users = db.get('users');
 var bcrypt = require('bcrypt');
 var cookieSession = require('cookie-session');

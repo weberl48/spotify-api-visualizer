@@ -140,14 +140,19 @@ function visualizeMic(stream) {
     function draw() {
       drawVisual = requestAnimationFrame(draw);
       analyser.getByteFrequencyData(dataArray);
+      ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
       ctx.fillStyle = 'rgb(0, 0, 0)';
       ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
       var barWidth = (WIDTH / bufferLength) * 2.5;
-      var barHeight;
-      var x = 0;
+
+      var x = 5;
+
+
       for(var i = 0; i < bufferLength; i++) {
+
         barHeight = dataArray[i];
+
         // shades of green:
         ctx.fillStyle = 'rgb(50,' + (barHeight+100) + ',50)';
         //shades of grey:

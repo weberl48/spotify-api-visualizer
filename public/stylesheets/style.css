@@ -1,5 +1,6 @@
-div#mp3_player{ width:500px; height:60px; background:#000; padding:5px; margin:50px auto;color: green; text-align: center; border-radius: 10px; margin-bottom: 100px;}
-div#mp3_player > div > audio{  width:500px; background:#000; float:left;  }
+html {
+	background-color: black;
+}
 
 a {
 		text-decoration: none;
@@ -11,6 +12,8 @@ a {
 ::-webkit-input-placeholder {
     color: rgb(50, 230, 50);
 		font-style: italic;
+		font-size: 35px;
+
 }
 
 a:hover {
@@ -53,7 +56,10 @@ a:hover {
 	margin: 5px;
 	color: white;
 }
-
+.canvas {
+	text-align: center;
+	overflow: hidden;
+}
 canvas{
 	/*width:100%;*/
 	/*height:500px; */
@@ -70,12 +76,15 @@ body {
 	background-color: black;
 	color: white;
 	font-family: 'Josefin Sans', sans-serif;
+	padding: 0;
+	margin: 0;
 }
 
 header {
   height:60px;
   background-color: rgb(0, 0, 0);
 	border-radius: 5px;
+	background-image: linear-gradient(rgb(147, 147, 147), black);
   /*color:white;*/
 }
 
@@ -95,6 +104,11 @@ header {
 #song-name {
 	display: inline-block;
 	margin: 10px;
+	color: white;
+	-webkit-filter: drop-shadow(0px 0px 8px rgba(50, 230, 50, 1));
+	-webkit-text-stroke-width: .5px;
+   -webkit-text-stroke-color: rgb(50, 0, 0);
+
 }
 
 .search {
@@ -106,12 +120,16 @@ header {
 
 .results {
   max-width: 100%;
-	overflow-x: scroll;
-	overflow-y: hidden;
+
+overflow-x: scroll;
+
+overflow-y: hidden;
 	height: 300px;
 	white-space:nowrap;
 	display: none;
+
 }
+.results::-webkit-scrollbar { width: 0 !important }
 
 .results2 {
 	max-width: 100%;
@@ -144,16 +162,27 @@ header {
 
 #search {
   border-radius: 10px;
+	text-decoration-color:rgb(50, 230, 50);
   background: rgb(0,0,0);
   width: 400px;
   height:60px;
-  font-size: 30px;
+  font-size: 40px;
   text-align: center;
-	color: rgb(50, 230, 50);
+	color: black;
+	-webkit-text-stroke-width: 1px;
+   -webkit-text-stroke-color: rgb(50, 230, 50);
+	/* color: rgb(50, 230, 50); */
+text-shadow: 0px 0px 10px rgb(50, 230, 50);
+
 	font-family: 'Ubuntu', sans-serif;
+}
+#search p {
+		-webkit-filter: drop-shadow(0px 0px 8px rgba(50, 230, 50, 1));
+
 }
 
 #search:focus, #search-button:focus {
+
 	outline: 0;
 }
 
@@ -162,7 +191,7 @@ header {
   background: rgb(50, 230, 50);
   border: solid 1px black;
   width:35%;
-	font-size: 14px;
+	font-size: 15px;
 	padding-top: 5px;
   margin-top: 20px;
   margin-bottom: 20px;

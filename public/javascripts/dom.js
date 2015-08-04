@@ -1,3 +1,4 @@
+
 var input = document.getElementById('search');
 var searchButton = document.getElementById('search-button');
 var resultSection = document.getElementsByClassName('results');
