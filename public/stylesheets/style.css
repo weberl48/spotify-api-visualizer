@@ -20,6 +20,15 @@ a:hover {
 	color: rgb(50, 230, 50);
 }
 
+#play {
+	display: none;
+}
+
+#play:hover {
+	cursor: pointer;
+	-webkit-filter: drop-shadow(0px 0px 8px rgb(50, 230, 50));
+}
+
 #thumbs-up {
 	margin-left: 20px;
 }
@@ -28,11 +37,17 @@ a:hover {
 	display: none;
 }
 
-#thumbs-up:hover {
+#pause {
+	display: inline-block;
+}
+
+#thumbs-up:hover, #pause:hover {
 	cursor: pointer;
 	-webkit-filter: drop-shadow(0px 0px 8px rgba(50, 230, 50, 1));
 	/*box-shadow: */
 }
+
+
 
 .right {
 	float: right;
@@ -57,6 +72,10 @@ a:hover {
 	color: white;
 }
 .canvas {
+	text-align: center;
+	
+}
+.render {
 	text-align: center;
 	overflow: hidden;
 }

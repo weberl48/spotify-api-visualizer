@@ -7,7 +7,7 @@ block content
             ul
               li
                 div
-                  a(href='#home') Home
+                  a(href='/') Home
               |   
               li
                 div
@@ -52,6 +52,11 @@ block content
          img#thumbs-up(src='images/thumbs-up.png')
          p(style='display: inline-block') - Like
       div.canvas
+         &nbsp;&nbsp;&nbsp;&nbsp;
+         img#pause(src='images/pause.png')
+         img#play(src='images/play-button.png')
+        //-  p(style='display: inline-block') - Like
+      div.render
         canvas#analyser_render(height='200', width='1250')
         //-  h2  Powered By Spotify and Web Audio
         .results

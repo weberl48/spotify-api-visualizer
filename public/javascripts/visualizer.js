@@ -2,8 +2,11 @@ var input = document.getElementById('search');
 var searchButton = document.getElementById('search-button');
 var resultSection = document.getElementsByClassName('results');
 var thumbsUp = document.getElementById('thumbs-up');
+var pause = document.getElementById('pause');
+var playButton = document.getElementById('play');
 var audioPlayer = document.getElementById('player');
 var loginButton = document.getElementById('show-login');
+var anchor = document.getElementById('anchor');
 var loginBox = document.getElementById('hidden-login');
 var showLinks = document.getElementById('show-links');
 var cancelButton = document.getElementById('cancel');
@@ -34,6 +37,7 @@ input.addEventListener('keypress', function (e) {
 input.addEventListener('click', function () {
   input.placeholder = '';
 });
+
 
 // function initMp3Player(audioObject) {
 //     context = new AudioContext(); // AudioContext object instance
@@ -167,7 +171,8 @@ function visualizeMic(stream) {
 }
 
 searchButton.addEventListener('click', function() {
-    resultSection[0].style.display = 'inline-block'
+    window.location = '#search';
+    resultSection[0].style.display = 'inline-block';
     resultSection[0].innerHTML = '';
     // search for artist based off of user input and get artist spotify id for api call
     var searchXhr = new XMLHttpRequest();
@@ -204,6 +209,21 @@ searchButton.addEventListener('click', function() {
         thumbsUp.src = 'images/thumbs-up-green.png';
       });
     }
+    if (pause) {
+      pause.addEventListener('click', function () {
+        player.pause();
+        pause.style.display = 'none';
+        playButton.style.display = 'inline-block';
+      })
+    }
+    if (playButton) {
+      playButton.addEventListener('click', function () {
+        playButton.style.display = 'none';
+        pause.style.display = 'inline-block';
+        player.play();
+      });
+    }
+
     var fetchTracks = function (albumId) {
         $.ajax({
             url: 'https://api.spotify.com/v1/albums/' + albumId,
