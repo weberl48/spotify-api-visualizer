@@ -24,21 +24,21 @@ var colorChoice;
 var canvas, ctx, source, context, analyser, fbc_array, bars, bar_x, bar_width, bar_height;
 
 normalMode.addEventListener('click', function () {
-  stealthMode.src = 'images/incognito.png'
-  crazebowMode.src = 'images/rainbow.png'
-  normalMode.src = 'images/equalizer-selected.png'
+  stealthMode.src = 'images/incognito.png';
+  crazebowMode.src = 'images/rainbow.png';
+  normalMode.src = 'images/equalizer-selected.png';
   colorChoice = 'yoyoyo';
 });
 stealthMode.addEventListener('click', function () {
-  normalMode.src = 'images/equalizer.png'
-  crazebowMode.src = 'images/rainbow.png'
-  stealthMode.src = 'images/incognito-selected.png'
+  normalMode.src = 'images/equalizer.png';
+  crazebowMode.src = 'images/rainbow.png';
+  stealthMode.src = 'images/incognito-selected.png';
   colorChoice = 'stealth';
 });
 crazebowMode.addEventListener('click', function () {
-  normalMode.src = 'images/equalizer.png'
-  stealthMode.src = 'images/incognito.png'
-  crazebowMode.src = 'images/rainbow-selected.png'
+  normalMode.src = 'images/equalizer.png';
+  stealthMode.src = 'images/incognito.png';
+  crazebowMode.src = 'images/rainbow-selected.png';
   colorChoice = 'crazebow';
 });
 
@@ -247,7 +247,7 @@ searchButton.addEventListener('click', function() {
         resultSection[0].appendChild(img);
         img.src = coverArtArray[i];
     }
-    window.location = '#search';
+    window.location = '#search-button';
     if (thumbsUp) {
       thumbsUp.addEventListener('click', function () {
         var albumXhr = new XMLHttpRequest();
@@ -281,6 +281,7 @@ searchButton.addEventListener('click', function() {
               songName.innerHTML = response.artists[0].name + ' - ' + response.tracks.items[0].name;
               player.src = response.tracks.items[0].preview_url;
               player.play();
+              window.location = '#artist-info';
             }
         });
     };
@@ -294,6 +295,7 @@ searchButton.addEventListener('click', function() {
         albums[i].addEventListener('click', function() {
           currentAlbumId = albumId[albums.indexOf(this)];
           fetchTracks(currentAlbumId);
+          thumbsUp.src='images/thumbs-up.png';
           playButton.style.display = 'none';
           pause.style.display = 'inline-block';
 				});

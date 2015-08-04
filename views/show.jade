@@ -58,12 +58,13 @@ block content
               //- h1 Artist Search
               input#search(type='text', placeholder='Search for Artist')
               br
-              input#search-button(type='button', value='Search')  
+              input#search-button(type='button', value='Search')
+      #jump-to-anchor  
       #artist-info
         h1#song-name Artist - Album
         if user
           img#thumbs-up(src='images/thumbs-up.png')
-          //- &nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;
         //- &nbsp;&nbsp;&nbsp;&nbsp;
         img#pause(src='images/pause.png')
         img#play(src='images/play-button.png')
@@ -78,12 +79,12 @@ block content
         .color-mode
           table
             thead
-              th(colspan='2') Visualizer Effects
+              th(colspan='2') VISUALIZER EFFECTS
             tbody
               tr
                 td Normal Mode
                 td 
-                  img#normal(src='images/equalizer.png')
+                  img#normal(src='images/equalizer-selected.png')
               tr
                 td Stealth Mode
                 td 
