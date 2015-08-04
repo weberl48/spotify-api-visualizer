@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var db = require('monk')(process.env.SPOTIFY_DB);
+// var db = require('monk')(process.env.SPOTIFY_DB);
+var db = require('monk')(process.env.MONGOLAB_URI || process.env.SPOTIFY_DB);
 var users = db.get('users');
 var bcrypt = require('bcrypt');
 var cookieSession = require('cookie-session');
@@ -39,36 +40,48 @@ router.get('/visualize/user/:id', function (req, res) {
   });
 });
 
-router.get('/visualize/sign-up', function (req, res) {
-  res.render('sign-up');
-});
+// router.get('/visualize/sign-up', function (req, res) {
+//   res.render('sign-up');
+// });
 
 router.post('/visualize/sign-up', function (req, res) {
   var formData = req.body;
   // delete formData.passwordConfirm;
-  var errorArray = validator(formData.userName, formData.password, formData.passwordConfirm);
-  if (errorArray.length > 0) {
-    res.render('sign-up', {errors: errorArray, userName: formData.userName});
-  }
-  else {
-    bcrypt.hash(formData.password, 8, function(err, hash) {
-      users.insert({userName: formData.userName, password: hash, favSongs: []});
-      req.session.user = formData.userName;
-      res.redirect('/');
-    });
-  }
+  users.findOne({userName :formData.userName.toUpperCase()}).then(function (user) {
+    if (user) {
+      res.render('show', {errors: ['Username already exists']});
+    }
+    else {
+      var errorArray = validator(formData.userName, formData.password, formData.passwordConfirm);
+      if (errorArray.length > 0) {
+        res.render('show', {errors: errorArray, userName: formData.userName});
+      }
+      else {
+        bcrypt.hash(formData.password, 8, function(err, hash) {
+          users.insert({userName: formData.userName.toUpperCase(), password: hash, favSongs: []});
+          req.session.user = formData.userName;
+          res.redirect('/');
+        });
+      }
+    }
+  });
 });
 
 router.post('/visualize/login', function (req, res, next) {
   var formData = req.body;
-  users.findOne({userName: formData.userName}).then(function (user) {
-    if (bcrypt.compareSync(formData.password, user.password)) {
-      req.session.user = formData.userName;
-      req.session.userId = user._id;
-      res.redirect('/');
+  users.findOne({userName: formData.userName.toUpperCase()}).then(function (user) {
+    if (user) {
+      if (bcrypt.compareSync(formData.password, user.password)) {
+        req.session.user = formData.userName;
+        req.session.userId = user._id;
+        res.redirect('/');
+      }
+      else {
+        res.render('show', {error: 'Incorrect Password'});
+      }
     }
     else {
-      res.render('show', {error: 'Passwords Do Not Match'});
+      res.render('show', {error: 'User Does Not Exist'});
     }
   });
 });
@@ -89,7 +102,7 @@ router.get('/visualize/liked/:currentAlbumId', function (req, res) {
       previewUrl: albumObj.tracks.items[0].preview_url,
       songName: albumObj.tracks.items[0].name
     };
-    users.update({userName: req.session.user}, { $push: { favSongs: objToInsert} })
+    users.update({userName: req.session.user}, { $push: { favSongs: objToInsert} });
   });
 });
 
