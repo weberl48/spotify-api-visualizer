@@ -71,7 +71,7 @@ signupCancelButton.addEventListener('click', function () {
 input.addEventListener('keypress', function (e) {
   var key= e.which || e.keyCode;
   if (key === 13) {
-    console.log('yo y yo');
+    searchButton.click();
   }
 });
 
@@ -223,6 +223,8 @@ var fetchTracks = function (albumId, favPreview) {
       $.ajax({
           url: 'https://api.spotify.com/v1/albums/' + albumId,
           success: function (response) {
+            playButton.style.display = 'none';
+            pause.style.display = 'inline-block';
             artistInfo.style.display = 'inline-block';
             songName.innerHTML = response.artists[0].name + ' - ' + response.tracks.items[0].name;
             player.src = response.tracks.items[0].preview_url;
@@ -296,8 +298,6 @@ searchButton.addEventListener('click', function() {
           currentAlbumId = albumId[albums.indexOf(this)];
           fetchTracks(currentAlbumId);
           thumbsUp.src='images/thumbs-up.png';
-          playButton.style.display = 'none';
-          pause.style.display = 'inline-block';
 				});
 			}
 });
@@ -320,8 +320,6 @@ if (playButton) {
 for (var i = 0; i < usersSaved[0].childNodes.length; i++) {
     usersSaved[0].childNodes[i].addEventListener('click', function() {
       fetchTracks(this.alt);
-      playButton.style.display = 'none';
-      pause.style.display = 'inline-block';
       thumbsUp.src='images/thumbs-up-green.png';
     });
   }
