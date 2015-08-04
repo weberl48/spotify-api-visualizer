@@ -24,11 +24,11 @@ router.get('/visualize', function (req, res, next) {
     var userId = req.session.userId;
     userCookie = userCookie.capitalize();
     users.findOne({_id:userId}).then(function (user) {
-      res.render('show', {title: 'SONGZ YO', user: userCookie, userId: userId, userFavs: user.favSongs});
+      res.render('show', {title: 'Spotifize', user: userCookie, userId: userId, userFavs: user.favSongs});
     });
   }
   else {
-    res.render('show', {title: 'SONGZ YO'});
+    res.render('show', {title: 'Spotifize'});
   }
 });
 
