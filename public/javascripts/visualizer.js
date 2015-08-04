@@ -16,6 +16,7 @@ var loginCancelButton = document.getElementById('login-cancel');
 var signupCancelButton = document.getElementById('signup-cancel');
 var songName = document.getElementById('song-name');
 var artistInfo = document.getElementById('artist-info');
+var usersSaved = document.getElementsByClassName('userSaved');
 var normalMode = document.getElementById('normal');
 var stealthMode = document.getElementById('stealth');
 var crazebowMode = document.getElementById('crazebow');
@@ -218,6 +219,18 @@ function visualizeMic(stream) {
     draw();
 }
 
+var fetchTracks = function (albumId, favPreview) {
+      $.ajax({
+          url: 'https://api.spotify.com/v1/albums/' + albumId,
+          success: function (response) {
+            artistInfo.style.display = 'inline-block';
+            songName.innerHTML = response.artists[0].name + ' - ' + response.tracks.items[0].name;
+            player.src = response.tracks.items[0].preview_url;
+            player.play();
+          }
+      });
+};
+
 searchButton.addEventListener('click', function() {
     resultSection[0].style.display = 'inline-block';
     resultSection[0].innerHTML = '';
@@ -251,11 +264,16 @@ searchButton.addEventListener('click', function() {
     if (thumbsUp) {
       thumbsUp.addEventListener('click', function () {
         var albumXhr = new XMLHttpRequest();
-        albumXhr.open('GET', '/visualize/liked/' + currentAlbumId, true);
+        albumXhr.open('GET', '/visualize/liked/' + currentAlbumId, false);
         albumXhr.send(null);
-        console.log(albumXhr.responseText);
         thumbsUp.classList.toggle("liked");
         thumbsUp.src = 'images/thumbs-up-green.png';
+        var parsedFavObj = JSON.parse(albumXhr.responseText);
+        var img = document.createElement("img")
+        img.className = "dash-album"
+        img.src = parsedFavObj.albumImg;
+        usersSaved[0].appendChild(img)
+        usersSaved[0].reverse();
       });
     }
     if (pause) {
@@ -273,24 +291,12 @@ searchButton.addEventListener('click', function() {
       });
     }
 
-    var fetchTracks = function (albumId) {
-        $.ajax({
-            url: 'https://api.spotify.com/v1/albums/' + albumId,
-            success: function (response) {
-              artistInfo.style.display = 'inline-block';
-              songName.innerHTML = response.artists[0].name + ' - ' + response.tracks.items[0].name;
-              player.src = response.tracks.items[0].preview_url;
-              player.play();
-              window.location = '#artist-info';
-            }
-        });
-    };
-
     var albumImages = document.getElementsByClassName('album');
     var albums = [];
     [].forEach.call(albumImages, function (album) {
       albums.push(album);
     });
+
     for (var i = 0; i < albums.length; i++) {
         albums[i].addEventListener('click', function() {
           currentAlbumId = albumId[albums.indexOf(this)];
@@ -301,3 +307,12 @@ searchButton.addEventListener('click', function() {
 				});
 			}
 });
+
+for (var i = 0; i < usersSaved[0].childNodes.length; i++) {
+    usersSaved[0].childNodes[i].addEventListener('click', function() {
+      console.log(usersSaved[0].childNodes[i]);
+      fetchTracks(this.alt);
+      playButton.style.display = 'none';
+      pause.style.display = 'inline-block';
+    });
+  }

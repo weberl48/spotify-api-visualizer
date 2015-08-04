@@ -63,6 +63,7 @@ block content
       #artist-info
         h1#song-name Artist - Album
         if user
+          //- form(action="/visualize/liked" method= 'POST')
           img#thumbs-up(src='images/thumbs-up.png')
           //- &nbsp;&nbsp;&nbsp;&nbsp;
         &nbsp;&nbsp;&nbsp;&nbsp;
@@ -97,5 +98,13 @@ block content
       //- #mp3_player
       //-   #audio_box
       audio#player(loop=true autoplay=false src='sample.mp3' type='audio/mp3')
+      if user
+        h1 #{user}'s Fav Songs
+        div.userSaved
+          if user
+            for fav in userFavs
+              img.dash-album(src=fav.albumImg, alt=fav.albumId)
+
+            
       //-   | &#x9;
     //- script(src='javascripts/visualizer.js')
