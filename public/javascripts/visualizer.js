@@ -71,7 +71,7 @@ signupCancelButton.addEventListener('click', function () {
 input.addEventListener('keypress', function (e) {
   var key= e.which || e.keyCode;
   if (key === 13) {
-    console.log('yo y yo');
+    searchButton.click();
   }
 });
 
@@ -223,10 +223,13 @@ var fetchTracks = function (albumId, favPreview) {
       $.ajax({
           url: 'https://api.spotify.com/v1/albums/' + albumId,
           success: function (response) {
+            playButton.style.display = 'none';
+            pause.style.display = 'inline-block';
             artistInfo.style.display = 'inline-block';
             songName.innerHTML = response.artists[0].name + ' - ' + response.tracks.items[0].name;
             player.src = response.tracks.items[0].preview_url;
             player.play();
+            window.location = '#artist-info';
           }
       });
 };
@@ -234,6 +237,8 @@ var fetchTracks = function (albumId, favPreview) {
 searchButton.addEventListener('click', function() {
     resultSection[0].style.display = 'inline-block';
     resultSection[0].innerHTML = '';
+    artistInfo.style.display = 'none';
+    player.pause();
     colorMode[0].style.display = 'inline-block';
     // search for artist based off of user input and get artist spotify id for api call
     var searchXhr = new XMLHttpRequest();
@@ -271,23 +276,14 @@ searchButton.addEventListener('click', function() {
         var parsedFavObj = JSON.parse(albumXhr.responseText);
         var img = document.createElement("img")
         img.className = "dash-album"
+        img.alt = parsedFavObj.albumId
         img.src = parsedFavObj.albumImg;
         usersSaved[0].appendChild(img)
-        usersSaved[0].reverse();
-      });
-    }
-    if (pause) {
-      pause.addEventListener('click', function () {
-        player.pause();
-        pause.style.display = 'none';
-        playButton.style.display = 'inline-block';
-      })
-    }
-    if (playButton) {
-      playButton.addEventListener('click', function () {
-        playButton.style.display = 'none';
-        pause.style.display = 'inline-block';
-        player.play();
+        img.addEventListener('click', function() {
+          fetchTracks(img.alt);
+          playButton.style.display = 'none';
+          pause.style.display = 'inline-block';
+        });
       });
     }
 
@@ -302,17 +298,28 @@ searchButton.addEventListener('click', function() {
           currentAlbumId = albumId[albums.indexOf(this)];
           fetchTracks(currentAlbumId);
           thumbsUp.src='images/thumbs-up.png';
-          playButton.style.display = 'none';
-          pause.style.display = 'inline-block';
 				});
 			}
 });
 
+if (pause) {
+  pause.addEventListener('click', function () {
+    player.pause();
+    pause.style.display = 'none';
+    playButton.style.display = 'inline-block';
+  })
+}
+if (playButton) {
+  playButton.addEventListener('click', function () {
+    playButton.style.display = 'none';
+    pause.style.display = 'inline-block';
+    player.play();
+  });
+}
+
 for (var i = 0; i < usersSaved[0].childNodes.length; i++) {
     usersSaved[0].childNodes[i].addEventListener('click', function() {
-      console.log(usersSaved[0].childNodes[i]);
       fetchTracks(this.alt);
-      playButton.style.display = 'none';
-      pause.style.display = 'inline-block';
+      thumbsUp.src='images/thumbs-up-green.png';
     });
   }
