@@ -113,6 +113,7 @@ input.addEventListener('click', function () {
 
 var canvas = document.getElementById('analyser_render');
 var ctx = canvas.getContext('2d');
+var colorChoice;
 
 var AudioContext = window.AudioContext || window.webkitAudioContext;
 var audioCtx = new AudioContext();
@@ -129,6 +130,11 @@ var blackAndWhite = function () {
   var randomValue = Math.round(Math.random() * 255);
 	return 'rgb(' + randomValue + ', ' + randomValue + ', ' + randomValue + ')';
 };
+
+var greenColor = function (barHeight) {
+  return 'rgb(50,' + (barHeight+100) + ',50)';
+};
+
 
 
 navigator.webkitGetUserMedia (
@@ -174,11 +180,13 @@ function visualizeMic(stream) {
         barHeight = dataArray[i];
 
         // shades of green:
-        ctx.fillStyle = 'rgb(50,' + (barHeight+100) + ',50)';
-        //shades of grey:
-        // ctx.fillStyle = blackAndWhite();
-        //crazebow:
-        // ctx.fillStyle = randomColor();
+        if (colorChoice === 'stealth') {
+          ctx.fillStyle = blackAndWhite();
+        } else if (colorChoice === 'crazebow') {
+          ctx.fillStyle = randomColor();
+        } else {
+          ctx.fillStyle = greenColor(barHeight);
+        }
         ctx.fillRect(x,HEIGHT-barHeight/2,barWidth,barHeight/2);
         x += barWidth + 1;
       }
