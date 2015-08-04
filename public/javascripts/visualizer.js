@@ -5,7 +5,6 @@ var thumbsUp = document.getElementById('thumbs-up');
 var pause = document.getElementById('pause');
 var audioPlayer = document.getElementById('player');
 var loginButton = document.getElementById('show-login');
-var searchButton = document.getElementById('search-button');
 var anchor = document.getElementById('anchor');
 var loginBox = document.getElementById('hidden-login');
 var showLinks = document.getElementById('show-links');
@@ -38,9 +37,6 @@ input.addEventListener('click', function () {
   input.placeholder = '';
 });
 
-if (resultSection.length>0) {
-  window.location = '#search';
-}
 
 // function initMp3Player(audioObject) {
 //     context = new AudioContext(); // AudioContext object instance
@@ -169,7 +165,8 @@ function visualizeMic(stream) {
 }
 
 searchButton.addEventListener('click', function() {
-    resultSection[0].style.display = 'inline-block'
+    window.location = '#search';
+    resultSection[0].style.display = 'inline-block';
     resultSection[0].innerHTML = '';
     // search for artist based off of user input and get artist spotify id for api call
     var searchXhr = new XMLHttpRequest();
