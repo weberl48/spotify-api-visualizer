@@ -273,21 +273,6 @@ searchButton.addEventListener('click', function() {
         img.className = "dash-album"
         img.src = parsedFavObj.albumImg;
         usersSaved[0].appendChild(img)
-        usersSaved[0].reverse();
-      });
-    }
-    if (pause) {
-      pause.addEventListener('click', function () {
-        player.pause();
-        pause.style.display = 'none';
-        playButton.style.display = 'inline-block';
-      })
-    }
-    if (playButton) {
-      playButton.addEventListener('click', function () {
-        playButton.style.display = 'none';
-        pause.style.display = 'inline-block';
-        player.play();
       });
     }
 
@@ -308,9 +293,23 @@ searchButton.addEventListener('click', function() {
 			}
 });
 
+if (pause) {
+  pause.addEventListener('click', function () {
+    player.pause();
+    pause.style.display = 'none';
+    playButton.style.display = 'inline-block';
+  })
+}
+if (playButton) {
+  playButton.addEventListener('click', function () {
+    playButton.style.display = 'none';
+    pause.style.display = 'inline-block';
+    player.play();
+  });
+}
+
 for (var i = 0; i < usersSaved[0].childNodes.length; i++) {
     usersSaved[0].childNodes[i].addEventListener('click', function() {
-      console.log(usersSaved[0].childNodes[i]);
       fetchTracks(this.alt);
       playButton.style.display = 'none';
       pause.style.display = 'inline-block';

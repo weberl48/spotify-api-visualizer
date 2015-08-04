@@ -51,6 +51,7 @@ router.get('/visualize', function (req, res) {
 router.post('/visualize/sign-up', function (req, res) {
   var formData = req.body;
   // delete formData.passwordConfirm;
+  console.log(formData);
   users.findOne({userName :formData.userName.toUpperCase()}).then(function (user) {
     if (user) {
       res.render('show', {errors: ['Username already exists']});
@@ -64,7 +65,10 @@ router.post('/visualize/sign-up', function (req, res) {
         bcrypt.hash(formData.password, 8, function(err, hash) {
           users.insert({userName: formData.userName.toUpperCase(), password: hash, favSongs: []});
           req.session.user = formData.userName;
-          res.redirect('/');
+          users.findOne({userName: formData.userName.toUpperCase()}).then(function (user) {
+            req.session.userId = user._id
+            res.redirect('/');
+          });
         });
       }
     }
