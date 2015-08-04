@@ -2,8 +2,11 @@ var input = document.getElementById('search');
 var searchButton = document.getElementById('search-button');
 var resultSection = document.getElementsByClassName('results');
 var thumbsUp = document.getElementById('thumbs-up');
+var pause = document.getElementById('pause');
 var audioPlayer = document.getElementById('player');
 var loginButton = document.getElementById('show-login');
+var searchButton = document.getElementById('search-button');
+var anchor = document.getElementById('anchor');
 var loginBox = document.getElementById('hidden-login');
 var showLinks = document.getElementById('show-links');
 var cancelButton = document.getElementById('cancel');
@@ -34,6 +37,10 @@ input.addEventListener('keypress', function (e) {
 input.addEventListener('click', function () {
   input.placeholder = '';
 });
+
+if (resultSection.length>0) {
+  window.location = '#search';
+}
 
 // function initMp3Player(audioObject) {
 //     context = new AudioContext(); // AudioContext object instance
@@ -198,6 +205,11 @@ searchButton.addEventListener('click', function() {
         thumbsUp.classList.toggle("liked");
         thumbsUp.src = 'images/thumbs-up-green.png';
       });
+    }
+    if (pause) {
+      pause.addEventListener('click', function () {
+        player.pause();
+      })
     }
     var fetchTracks = function (albumId) {
         $.ajax({
