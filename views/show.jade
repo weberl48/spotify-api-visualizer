@@ -15,11 +15,11 @@ block content
               |   
               li
                 div
-                  a(href='#home') Contact
+                  a(href='mailto:cer.andrew@gmail.com,sam.genduso@gmail.com,szilvia.deahl@yahoo.com,weberl48@outlook.com') Contact
               |   
-              li
-                div
-                  a(href='#home') About 
+              //- li
+              //-   div
+              //-     a(href='#home') About 
           .right
             #show-links(style= error || errors ? 'display: none' : 'display: inline-block')
               if user
@@ -65,8 +65,8 @@ block content
         if user
           //- form(action="/visualize/liked" method= 'POST')
           img#thumbs-up(src='images/thumbs-up.png')
-          &nbsp;&nbsp;&nbsp;&nbsp;
-        //- &nbsp;&nbsp;&nbsp;&nbsp;
+          //- &nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;
         img#pause(src='images/pause.png')
         img#play(src='images/play-button.png')
         //-  p(style='display: inline-block') - Like

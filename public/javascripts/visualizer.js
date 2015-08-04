@@ -227,6 +227,7 @@ var fetchTracks = function (albumId, favPreview) {
             songName.innerHTML = response.artists[0].name + ' - ' + response.tracks.items[0].name;
             player.src = response.tracks.items[0].preview_url;
             player.play();
+            window.location = '#artist-info';
           }
       });
 };
@@ -234,6 +235,8 @@ var fetchTracks = function (albumId, favPreview) {
 searchButton.addEventListener('click', function() {
     resultSection[0].style.display = 'inline-block';
     resultSection[0].innerHTML = '';
+    artistInfo.style.display = 'none';
+    player.pause();
     colorMode[0].style.display = 'inline-block';
     // search for artist based off of user input and get artist spotify id for api call
     var searchXhr = new XMLHttpRequest();
@@ -271,8 +274,14 @@ searchButton.addEventListener('click', function() {
         var parsedFavObj = JSON.parse(albumXhr.responseText);
         var img = document.createElement("img")
         img.className = "dash-album"
+        img.alt = parsedFavObj.albumId
         img.src = parsedFavObj.albumImg;
         usersSaved[0].appendChild(img)
+        img.addEventListener('click', function() {
+          fetchTracks(img.alt);
+          playButton.style.display = 'none';
+          pause.style.display = 'inline-block';
+        });
       });
     }
 
@@ -313,5 +322,6 @@ for (var i = 0; i < usersSaved[0].childNodes.length; i++) {
       fetchTracks(this.alt);
       playButton.style.display = 'none';
       pause.style.display = 'inline-block';
+      thumbsUp.src='images/thumbs-up-green.png';
     });
   }
