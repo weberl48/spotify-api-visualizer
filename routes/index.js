@@ -23,20 +23,24 @@ router.get('/visualize', function (req, res, next) {
     var userCookie = req.session.user;
     var userId = req.session.userId;
     userCookie = userCookie.capitalize();
-    res.render('show', {title: 'SONGZ YO', user: userCookie, userId: userId});
+    users.findOne({_id:userId}).then(function (user) {
+      res.render('show', {title: 'SONGZ YO', user: userCookie, userId: userId, userFavs: user.favSongs});
+    });
   }
   else {
     res.render('show', {title: 'SONGZ YO'});
   }
 });
 
-router.get('/visualize/user/:id', function (req, res) {
+router.get('/visualize', function (req, res) {
   // db.open();
   var userCookie = req.session.user;
   var userId = req.session.userId;
+  console.log(userId);
   userCookie = userCookie.capitalize();
   users.findOne({_id: userId}).then(function (user) {
-    res.render('user-page', {user: userCookie, userId: userId, userFavs: user.favSongs});
+    // console.log(user);
+    res.render('show', {user: userCookie, userId: userId});
   });
 });
 
@@ -69,8 +73,7 @@ router.post('/visualize/sign-up', function (req, res) {
 
 router.post('/visualize/login', function (req, res, next) {
   var formData = req.body;
-  console.log(formData);
-  users.findOne({userName: formData.userName.toUpperCase()}).then(function (user) {
+  users.findOne({userName: formData.userName.toUpperCase()}).then(function (user, record) {
     if (user) {
       if (bcrypt.compareSync(formData.password, user.password)) {
         req.session.user = formData.userName;
@@ -101,10 +104,18 @@ router.get('/visualize/liked/:currentAlbumId', function (req, res) {
       albumImg: albumObj.images[0].url,
       albumName: albumObj.name,
       previewUrl: albumObj.tracks.items[0].preview_url,
-      songName: albumObj.tracks.items[0].name
+      songName: albumObj.tracks.items[0].name,
+      albumId: req.params.currentAlbumId
     };
-    users.update({userName: req.session.user}, { $push: { favSongs: objToInsert} });
+    users.update({userName: req.session.user.toUpperCase()}, { $push: { favSongs: objToInsert} })
+    .then(function () {
+      res.json(objToInsert);
+    })
   });
+//   router.post("/visualize/liked" ,function(req,res,next){
+//     // var albumObj = JSON.parse(result.raw_body);
+// console.log("hello");
+  // })
 });
 
 module.exports = router;
