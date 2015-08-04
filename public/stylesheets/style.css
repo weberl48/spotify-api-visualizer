@@ -17,6 +17,15 @@ a:hover {
 	color: rgb(50, 230, 50);
 }
 
+#play {
+	display: none;
+}
+
+#play:hover {
+	cursor: pointer;
+	-webkit-filter: drop-shadow(0px 0px 8px rgb(50, 230, 50));
+}
+
 #thumbs-up {
 	margin-left: 20px;
 }
