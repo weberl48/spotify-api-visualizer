@@ -1,3 +1,10 @@
 # spotify-api-visualizer
-## Link to Live App
 [Live Site](http://spotifize.herokuapp.com/visualize)
+
+Audio visualizer accessing music through Spotify API and rendering HTML Canvas via Web Audio API.
+
+Other technologies:
+
+* Express
+* Node.js
+* MongoDB
