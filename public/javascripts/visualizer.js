@@ -22,6 +22,7 @@ var stealthMode = document.getElementById('stealth');
 var crazebowMode = document.getElementById('crazebow');
 var currentAlbumId;
 var colorChoice;
+
 var canvas, ctx, source, context, analyser, fbc_array, bars, bar_x, bar_width, bar_height;
 
 normalMode.addEventListener('click', function () {
@@ -248,6 +249,16 @@ searchButton.addEventListener('click', function() {
     var artistId = parsedObj.artists[0].href;
     var artistName = parsedObj.artists[0].name;
     var artistIdParam = artistId.split(':')[2];
+
+
+console.log(spotify.search({ type: 'track', query: input.value }, function(err, data) {
+    if ( err ) {
+        console.log('Error occurred: ' + err);
+        return;
+    }
+
+    // Do something with 'data'
+}));
     //api call with artists information
     var apiXhr = new XMLHttpRequest();
     apiXhr.open('GET', 'https://api.spotify.com/v1/artists/' + artistIdParam + '/albums?album_type=album', false);
@@ -274,11 +285,11 @@ searchButton.addEventListener('click', function() {
         thumbsUp.classList.toggle("liked");
         thumbsUp.src = 'images/thumbs-up-green.png';
         var parsedFavObj = JSON.parse(albumXhr.responseText);
-        var img = document.createElement("img")
-        img.className = "dash-album"
-        img.alt = parsedFavObj.albumId
+        var img = document.createElement("img");
+        img.className = "dash-album";
+        img.alt = parsedFavObj.albumId;
         img.src = parsedFavObj.albumImg;
-        usersSaved[0].appendChild(img)
+        usersSaved[0].appendChild(img);
         img.addEventListener('click', function() {
           fetchTracks(img.alt);
           playButton.style.display = 'none';
@@ -307,7 +318,7 @@ if (pause) {
     player.pause();
     pause.style.display = 'none';
     playButton.style.display = 'inline-block';
-  })
+  });
 }
 if (playButton) {
   playButton.addEventListener('click', function () {
